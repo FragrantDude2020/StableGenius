@@ -1,0 +1,168 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>StableGeniusExtension</Name>
+    <RootNamespace>StableGeniusExtension</RootNamespace>
+    <UseIISExpress>true</UseIISExpress>
+    <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>d80c7d80-fb3d-4c5f-919d-4b7193ea84e7</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>server.js</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <NodejsPort>1337</NodejsPort>
+    <StartWebBrowser>True</StartWebBrowser>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="ext\" />
+    <Folder Include="ext\css\" />
+    <Folder Include="ext\css\angular\" />
+    <Folder Include="ext\css\angular\images\" />
+    <Folder Include="ext\icons\" />
+    <Folder Include="ext\icons\OLD\" />
+    <Folder Include="ext\js\" />
+    <Folder Include="ext\js\angular\" />
+    <Folder Include="ext\js\angular\jquery2.2.2\" />
+    <Folder Include="ext\js\jquery\" />
+    <Folder Include="ext\js\StableGenius\" />
+    <Folder Include="ext\js\StableGenius\Directives\" />
+    <Folder Include="ext\js\StableGenius\Directives\Common\" />
+    <Folder Include="ext\js\StableGenius\Directives\Common\Templates\" />
+    <Folder Include="ext\js\StableGenius\Services\" />
+    <Folder Include="ext\js\StableGenius\Services\Common\" />
+    <Folder Include="ext\src\" />
+    <Folder Include="ext\src\bg\" />
+    <Folder Include="ext\src\inject\" />
+    <Folder Include="ext\src\options\" />
+    <Folder Include="ext\_locales\" />
+    <Folder Include="ext\_locales\en\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ext\css\angular\angular-material.min.css" />
+    <Content Include="ext\css\angular\bootstrap.css" />
+    <Content Include="ext\css\angular\bootstrap.min.css" />
+    <Content Include="ext\css\angular\images\ui-icons_444444_256x240.png" />
+    <Content Include="ext\css\angular\images\ui-icons_555555_256x240.png" />
+    <Content Include="ext\css\angular\images\ui-icons_777620_256x240.png" />
+    <Content Include="ext\css\angular\images\ui-icons_777777_256x240.png" />
+    <Content Include="ext\css\angular\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="ext\css\angular\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="ext\css\angular\jquery-ui.css" />
+    <Content Include="ext\css\angular\jquery-ui.min.css" />
+    <Content Include="ext\css\angular\jquery-ui.structure.css" />
+    <Content Include="ext\css\angular\jquery-ui.structure.min.css" />
+    <Content Include="ext\css\angular\jquery-ui.theme.css" />
+    <Content Include="ext\css\angular\jquery-ui.theme.min.css" />
+    <Content Include="ext\css\angular\palette.css" />
+    <Content Include="ext\css\angular\whhg.css" />
+    <Content Include="ext\css\custom.css" />
+    <Content Include="ext\icons\icon128.png" />
+    <Content Include="ext\icons\icon16.png" />
+    <Content Include="ext\icons\icon19.png" />
+    <Content Include="ext\icons\icon48.png" />
+    <Content Include="ext\icons\icon_128.png" />
+    <Content Include="ext\icons\icon_16.png" />
+    <Content Include="ext\icons\icon_19.png" />
+    <Content Include="ext\icons\icon_48.png" />
+    <Content Include="ext\icons\logo.png" />
+    <Content Include="ext\icons\logo_small.png" />
+    <Content Include="ext\js\angular\angular-animate.js" />
+    <Content Include="ext\js\angular\angular-aria.min.js" />
+    <Content Include="ext\js\angular\angular-material.js" />
+    <Content Include="ext\js\angular\angular-material.min.js" />
+    <Content Include="ext\js\angular\angular-messages.min.js" />
+    <Content Include="ext\js\angular\angular-resource.js" />
+    <Content Include="ext\js\angular\angular-resource.min.js" />
+    <Content Include="ext\js\angular\angular-sanitize.js" />
+    <Content Include="ext\js\angular\angular.js" />
+    <Content Include="ext\js\angular\angular.min.js" />
+    <Content Include="ext\js\angular\bootstrap.min.js" />
+    <Content Include="ext\js\angular\jquery-ui.js" />
+    <Content Include="ext\js\angular\jquery-ui.min.js" />
+    <Content Include="ext\js\angular\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="ext\js\angular\jquery.validate.min.js" />
+    <Content Include="ext\js\angular\jquery.validate.unobtrusive.min.js" />
+    <Content Include="ext\js\angular\jquery2.2.2\jquery.min.js" />
+    <Content Include="ext\js\angular\JSLINQ.js" />
+    <Content Include="ext\js\angular\ui-bootstrap-tpls-2.5.0.js" />
+    <Content Include="ext\js\jquery\.gitignore" />
+    <Content Include="ext\js\jquery\bower.json" />
+    <Content Include="ext\js\jquery\component.json" />
+    <Content Include="ext\js\jquery\composer.json" />
+    <Content Include="ext\js\jquery\jquery-migrate.js" />
+    <Content Include="ext\js\jquery\jquery-migrate.min.js" />
+    <Content Include="ext\js\jquery\jquery.js" />
+    <Content Include="ext\js\jquery\jquery.min.js" />
+    <Content Include="ext\js\jquery\package.json" />
+    <Content Include="ext\js\jquery\README.md" />
+    <Content Include="ext\js\StableGenius\Directives\Common\AlertNotifier.js" />
+    <Content Include="ext\js\StableGenius\Directives\Common\Templates\AlertNotifier.html" />
+    <Content Include="ext\js\StableGenius\Services\Common\alertService.js" />
+    <Content Include="ext\js\StableGenius\Services\Common\httpService.js" />
+    <Content Include="ext\manifest.json" />
+    <Content Include="ext\src\.DS_Store" />
+    <Content Include="ext\src\bg\background.html" />
+    <Content Include="ext\src\bg\background.js" />
+    <Content Include="ext\src\inject\app.js" />
+    <Content Include="ext\src\inject\author_tag_options.html" />
+    <Content Include="ext\src\inject\inject.js" />
+    <Content Include="ext\src\inject\large_color_list.html" />
+    <Content Include="ext\src\options\sg_options.html" />
+    <Content Include="ext\_locales\en\messages.json" />
+  </ItemGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:64102/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>True</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

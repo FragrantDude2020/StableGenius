@@ -1,0 +1,51 @@
+.sg_insert_element {
+	display: inline-block;
+}
+
+.sg_insert_element .sg_inline_content {
+	display: flex; 
+	flex-direction: row; 
+	align-items: flex-end;
+}
+
+.sg_author_tag {
+	cursor: pointer;
+	font-size: 120%;
+}
+
+#sg_overlay {
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+
+#sg_modal {
+  position:absolute;
+  background:url(tint20.png) 0 0 repeat;
+  background:rgba(0,0,0,0.2);
+  border-radius:4px;
+  padding:3px;
+}
+
+#sg_content {
+  border-radius:4px;
+  background:#fff;
+  padding:20px;
+  /*overflow-y: scroll;
+  height: 460px;*/
+}
+
+#sg_close {
+  position:absolute;
+  background:url(close.png) 0 0 no-repeat;
+  width:24px;
+  height:27px;
+  display:block;
+  top:5px;
+  right:-5px;
+}

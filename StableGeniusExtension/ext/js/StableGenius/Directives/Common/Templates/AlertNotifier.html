@@ -1,0 +1,1 @@
+﻿<div uib-alert ng-repeat="alert in alertFactory.alerts" ng-class="'alert-' + (alert.type || 'warning')" close="alertFactory.closeAlert($index)" dismiss-on-timeout="5000" ng-cloak>{{alert.msg}}<span ng-if="alert.count > 1">&nbsp;({{alert.count}})</span></div>
