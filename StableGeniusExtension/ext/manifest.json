@@ -9,9 +9,10 @@
     "48": "icons/icon_48.png",
     "128": "icons/icon_128.png"
   },
+  "content_security_policy": "script-src 'self' 'unsafe-inline'",
   "default_locale": "en",
   "background": {
-    "scripts": ["src/bg/background.js"],
+    "scripts": [ "src/bg/background.js" ],
     "persistent": true
   },
   "permissions": [

@@ -1,64 +1,37 @@
 <!DOCTYPE html>
 <html>
-  <head>
-  	<title>Stable Genius for TheDonald.win - Options</title>
-		<link rel="stylesheet" href="../../css/angular/bootstrap.min.css" />
-		<link rel="stylesheet" href="../../css/angular/whhg.css" />
-		<link rel="stylesheet" href="../../css/angular/angular-material.min.css" />
-		<link rel="Stylesheet" href="../../css/angular/CS_styles.css" />
+<head>
+	<title>Stable Genius for TheDonald.win - Options</title>
 
-		<script src="../../js/angular/jquery2.2.2/jquery.min.js"></script>
-		<script src="../../js/angular/jquery.validate.min.js"></script>
-		<script src="../../js/angular/jquery.validate.unobtrusive.min.js"></script>
-		<script src="../../js/angular/jquery.unobtrusive-ajax.min.js"></script>
-		<script src="../../js/angular/angular.min.js"></script>
-		<script src="../../js/angular/angular-messages.min.js"></script>
-		<script src="../../js/angular/angular-animate.js"></script>
-		<script src="../../js/angular/angular-sanitize.js"></script>
-		<script src="../../js/angular/angular-resource.min.js"></script>
-		<script src="../../js/angular/angular-aria.min.js"></script>
-		<script src="../../js/angular/angular-material.min.js"></script>
+	<link rel="stylesheet" href="../../css/angular/bootstrap.min.css" />
+	<link rel="stylesheet" href="../../css/angular/whhg.css" />
+	<link rel="stylesheet" href="../../css/angular/angular-material.min.css" />
 
-		<script src="../../js/angular/bootstrap.min.js"></script>
-		<script src="../../js/angular/ui-bootstrap-tpls-2.5.0.js"></script>
-		<script src="../../js/angular/JSLINQ.js"></script>
+	<script src="../../js/angular/jquery2.2.2/jquery.min.js"></script>
+	<script src="../../js/angular/jquery.validate.min.js"></script>
+	<script src="../../js/angular/jquery.validate.unobtrusive.min.js"></script>
+	<script src="../../js/angular/jquery.unobtrusive-ajax.min.js"></script>
+	<script src="../../js/angular/angular.min.js"></script>
+	<script src="../../js/angular/angular-messages.min.js"></script>
+	<script src="../../js/angular/angular-animate.js"></script>
+	<script src="../../js/angular/angular-sanitize.js"></script>
+	<script src="../../js/angular/angular-resource.min.js"></script>
+	<script src="../../js/angular/angular-aria.min.js"></script>
+	<script src="../../js/angular/angular-material.min.js"></script>
 
-		<script>
-			var app = angular
-				.module("app", ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'ngMaterial'])
-				/*
-				.config(['$provide', function ($provide) {
-					/**
-					  * Angular Material dynamically generates Style tags
-					  * based on themes and palletes; for each ng-app.
-					  * Let's disable generation and <style> DOM injections. 
-					  * /
-					$provide.constant('$MD_THEME_CSS', '/** /'); < FIX THE COMMENT STRING HERE BEFORE UNCOMMENTING
-				}]);;
-				*/
-		</script>
+	<script src="../../js/angular/bootstrap.min.js"></script>
+	<script src="../../js/angular/ui-bootstrap-tpls-2.5.0.js"></script>
+	<script src="../../js/angular/JSLINQ.js"></script>
 
-		<script src="../../js/StableGenius/Services/Common/alertService.js?v=0.0.1"></script>
-		<script src="../../js/StableGenius/Services/Common/httpService.js?v=0.0.1"></script>
+	<script src="sg_options_ang.js?v=0.0.1"></script>
 
-		<script src="../../js/StableGenius/Directives/Common/AlertNotifier.js?v=0.0.1"></script>
+	<script src="../../js/StableGenius/Services/Common/alertService.js?v=0.0.1"></script>
+	<script src="../../js/StableGenius/Services/Common/httpService.js?v=0.0.1"></script>
 
-		<script>
-			app
-				/*
-				.config(['$compileProvider', function ($compileProvider) {
-					$compileProvider.debugInfoEnabled(false);
-					$compileProvider.commentDirectivesEnabled(false);
-					$compileProvider.cssClassDirectivesEnabled(false);
-				}])
-				*/
-				.controller("OptionsPageController", ['$scope', '$uibModal', 'httpService', 'alertService', function ($scope, $uibModal, httpService, alertService) {
-					$scope.alertService = alertService;
+	<script src="../../js/StableGenius/Directives/Common/AlertNotifier.js?v=0.0.1"></script>
 
-					httpService.DataRootUrl = 'http://localhost';
-				}]);
-		</script>
-	</head>		
+	<script src="sg_option_app.js?v=0.0.1"></script>
+</head>		
 	<body text="black" bottomMargin="0" leftMargin="0" topMargin="0" rightMargin="0">
 		<div ng-app="app" ng-strict-di>
 		    <div ng-controller="OptionsPageController">
@@ -67,7 +40,7 @@
 		    			Clear all data
 		    		</div>
 		    		<div class="col-xs-10">
-		    			<input type="button" />
+		    			<input type="button" value="Clear Data" ng-click="clearData()" />
 		    		</div>
 		    	</div>
 

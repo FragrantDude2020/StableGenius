@@ -1,11 +1,10 @@
-﻿angular.module("app").controller('AlertNotifierController',
-    function ($scope, alertFactory) {
-        $scope.alertFactory = alertFactory;
-    })
-    .directive('alertNotifier', function () {
-        return {
-            restrict: 'E',
-            controller: 'AlertNotifierController',
-            templateUrl: "Templates/AlertNotifier.html"
-        };
-    });
+﻿angular.module("app").controller('AlertNotifierController', ['$scope', 'alertService', function ($scope, alertService) {
+    $scope.alertService = alertService;
+}])
+.directive('alertNotifier', function () {
+    return {
+        restrict: 'E',
+        controller: 'AlertNotifierController',
+        templateUrl: "/js/StableGenius/Directives/Common/Templates/AlertNotifier.html"
+    };
+});

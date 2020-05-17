@@ -124,6 +124,12 @@
     <Content Include="ext\src\inject\inject.js" />
     <Content Include="ext\src\inject\large_color_list.html" />
     <Content Include="ext\src\options\sg_options.html" />
+    <Content Include="ext\src\options\sg_options_ang.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="ext\src\options\sg_option_app.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="ext\_locales\en\messages.json" />
   </ItemGroup>
   <ProjectExtensions>
