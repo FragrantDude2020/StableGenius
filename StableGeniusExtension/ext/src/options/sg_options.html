@@ -23,7 +23,8 @@
 	<script src="../../js/angular/ui-bootstrap-tpls-2.5.0.js"></script>
 	<script src="../../js/angular/JSLINQ.js"></script>
 
-	<script src="sg_options_ang.js?v=0.0.1"></script>
+	<!-- Chrome extensions no longer allow 'unsafe-inline', see: https://stackoverflow.com/a/11672134 -->
+	<script src="sg_options_ang.js?v=0.0.1"></script> 
 
 	<script src="../../js/StableGenius/Services/Common/alertService.js?v=0.0.1"></script>
 	<script src="../../js/StableGenius/Services/Common/httpService.js?v=0.0.1"></script>
@@ -34,17 +35,82 @@
 </head>		
 	<body text="black" bottomMargin="0" leftMargin="0" topMargin="0" rightMargin="0">
 		<div ng-app="app" ng-strict-di>
-		    <div ng-controller="OptionsPageController">
-		    	<div style="border: solid 1px black; padding: 20px">
-		    		<div class="col-xs-2 text-right">
-		    			Clear all data
-		    		</div>
-		    		<div class="col-xs-10">
-		    			<input type="button" value="Clear Data" ng-click="clearData()" />
-		    		</div>
-		    	</div>
+			<div ng-controller="OptionsPageController">
+				<div style="border: solid 1px black; padding: 20px; margin: 48px">
+					<div class="row form-group">
+						<div class="col-xs-12">
+							<div style="display: flex; flex-direction: row; justify-content: center; align-items: center">
+								<img src="../../icons/icon_128.png" style="margin-right: 32px; height: 96px" />
+								<h2>Stable Genius for TheDonald.win - Options</h2>
+							</div>
+						</div>
+					</div>
+					<hr style="width: 50%" />
+					<div class="row form-group">
+						<div class="col-xs-2 text-right">
+							Clear all data
+						</div>
+						<div class="col-xs-10">
+							<input type="button" value="Clear Data" ng-click="clearData()" />
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-xs-2 text-right">
+							<div style="display: flex; flex-direction: column; justify-items: flex-end">
+								<div>
+									User manager
+								</div>
+								<div style="display: flex; flex-direction: row; justify-content: flex-end">
+									<div class="icon-whhg-refresh" title="Refresh users list" style="font-size: 80%" ng-click="getUsers()">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-10">
+							<div style="border: solid 1px black">
+								<div style="display: table; margin: 0 auto; font-size: 26px; color: #CCC;" ng-if="gettingUsers == true && usersList === null && usersList !== undefined">
+									<img src="/icons/loader.gif" style="height: 32px; width: 32px;" />
+									Loading
+								</div>
+								<div class="animate-switch-container" ng-switch on="getObjectPropertiesCount(usersList)">
+									<div class="animate-switch" ng-switch-when="-2">
+										<div style="display: flex; flex-direction: row">No users data found, created a new initialization. <div class="btn btn-success" ng-click="getUsers()">Click here</div> to refresh this list.</div>
+									</div>
+									<div class="animate-switch" ng-switch-when="-1|0" ng-switch-when-separator="|">
+										No users found
+									</div>
+									<div class="animate-switch" ng-switch-default>
+										<div ng-else ng-repeat="(key, value) in usersList">
+											<div class="row form-group">
+												<div class="col-xs-1">
+													<div class="icon-whhg-squarex" style="color: #b00" ng-click="deleteUser(key)"></div>
+												</div>
+												<div class="col-xs-2 text-right">
+													{{key}}
+												</div>
+												<div class="col-xs-9">
+													{{value}}
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!--
+								<div style="margin-top: 32px">
+									users list: {{usersList}}{{(usersList === null ? "null" : "undefined")}}<br />
+									properties count: {{getObjectPropertiesCount(usersList)}}
+								</div>
+								-->
+							</div>
+						</div>
+					</div>
+				</div>
 
-		    	<alert-notifier></alert-notifier>
+				<div>
+					Email me: <a href="mailto:FragrantDude2020@gmail.com?subject=StableGeniusChromeExtension v0.0.1 inquiry">FragrantDude2020@gmail.com</a>
+				</div>
+
+				<alert-notifier></alert-notifier>
 			</div>
 		</div>
 	</body>

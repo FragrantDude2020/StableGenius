@@ -17,6 +17,7 @@ $(function()
 
 		// figure out what the previous and next states were, then calculate a vote magnitude to add to the vote count
 		var voteMagnitude = 0;
+		var unDid = false;
 		if (voteButtonClicked == "up") {
 			switch (voteButtonData) {
 				case undefined:
@@ -30,6 +31,7 @@ $(function()
 				case "up":
 					//console.log("detected un-upvote of user: ", author);
 					voteMagnitude = -1;
+					unDid = true;
 					break;
 			}
 		} else if (voteButtonClicked == "down") {
@@ -45,22 +47,25 @@ $(function()
 				case "down":
 					//console.log("detected un-downvote of user: ", author);
 					voteMagnitude = 1;
+					unDid = true;
 					break;
 			}
 		}
 
 		// get the current vote count from sync storage (prevents user manipulation), then update the vote count
-		chrome.storage.sync.get([author], function (result) {
-			var voteValue = 0;
-
+		chrome.storage.sync.get(["users"], function (result) {
 			//debugger;
 
+			var voteValue = 0;
+
 			// if a vote count exists, grab it
-			if (result[author] !== undefined && result[author].voteValue != undefined) {
+			if (result.users !== undefined && result.users[author] !== undefined && result.users[author].voteValue !== undefined) {
 				//debugger;
 
-				voteValue = result[author].voteValue;
-			}
+				voteValue = result.users[author].voteValue;
+			} else if (unDid) {
+				voteValue = -voteMagnitude; // user has no previous vote value in the sync storage and we just detected an undo so there must be some sort of disconnect happening, so just trust the vote element and do an undo
+            }
 
 			//debugger;
 
@@ -68,11 +73,12 @@ $(function()
 			voteValue += voteMagnitude;
 	      		
 	  		// if there is no information for this author, initialize new
-	  		var authorDetails = result || {};
-	  		authorDetails[author] = authorDetails[author] || {};
+			var authorDetails = result || {};
+			authorDetails.users = authorDetails.users || {};
+			authorDetails.users[author] = authorDetails.users[author] || {};
 
 	  		// save the vote count
-	  		authorDetails[author].voteValue = voteValue;
+			authorDetails.users[author].voteValue = voteValue;
 
 	      	// write the vote count back out to sync storage
 			chrome.storage.sync.set(authorDetails, function() {
@@ -96,9 +102,9 @@ $(function()
 		//debugger;
 
 		// async get the author data and update the vote count if it exists
-		chrome.storage.sync.get([author], function (result) {
-			if (result[author] !== undefined && result[author].voteValue != undefined && result[author].voteValue != 0) {
-				$(".vote_value_" + author).html("[" + result[author].voteValue + "]");
+		chrome.storage.sync.get(["users"], function (result) {
+			if (result.users !== undefined && result.users[author] !== undefined && result.users[author].voteValue != undefined && result.users[author].voteValue != 0) {
+				$(".vote_value_" + author).html("[" + result.users[author].voteValue + "]");
 			}
 
 		});
@@ -122,10 +128,10 @@ $(function()
 		var authorTag = undefined;
 
 		// async get the author data and replace the blank tag if it exists
-		chrome.storage.sync.get([author], function (result) {
-			if (result[author] !== undefined && result[author].authorTag) {
-				$(".author_tag_" + author).html("[" + result[author].authorTag + "]");
-				$(".author_tag_" + author).attr("title", result[author].authorTag);
+		chrome.storage.sync.get(["users"], function (result) {
+			if (result.users !== undefined && result.users[author] !== undefined && result.users[author].authorTag) {
+				$(".author_tag_" + author).html("[" + result.users[author].authorTag + "]");
+				$(".author_tag_" + author).attr("title", result.users[author].authorTag);
 			}
 
 		});
@@ -163,10 +169,6 @@ $(function()
     		}
 		});
 	});
-
-	////////////////// FOR DEBUG USE ONLY //////////////////////
-	//chrome.storage.sync.clear();
-	////////////////// FOR DEBUG USE ONLY //////////////////////
 
 	console.log(">>> end of DOM ready");
 });
