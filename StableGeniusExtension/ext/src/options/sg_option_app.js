@@ -7,6 +7,17 @@ app
 		$scope.usersList = undefined;
 		$scope.gettingUsers = false;
 
+		$scope.logLevel = 1;
+
+		$scope.print = function (message, obj) {
+			if ($scope.logLevel > 0) {
+				if (obj)
+					console.log(message, obj);
+				else
+					console.log(message);
+            }
+        }
+
 		$scope.clearData = function () {
 			if (confirm("This will clear all your StableGenius data. Are you sure you want to do this?")) {
 				//debugger;
@@ -21,7 +32,7 @@ app
 			$scope.usersList = null;
 			$scope.gettingUsers = true;
 
-			//console.log("getting users");
+			$scope.print("getting users");
 
 			chrome.storage.sync.get(["users"], function (result) {
 				//debugger;
@@ -30,24 +41,24 @@ app
 
 				// check to make sure the users list exists
 				if (result.users !== undefined) {
-					//console.log("found users: ", result.users);
+					$scope.print("found users: ", result.users);
 
 					//debugger;
 
 					$scope.$apply(function () {
 						$scope.usersList = angular.copy(result.users);
 
-						//console.log("assigned users: ", $scope.usersList);
+						$scope.print("assigned users: ", $scope.usersList);
 					});
 				} else {
-					//console.log("no users found, resetting");
+					$scope.print("no users found, resetting");
 
 					var authorDetails = result || {};
 
 					// create a new users list
 					authorDetails.users = authorDetails.users || {};
 
-					//console.log("setting sync storage to: ", authorDetails);
+					$scope.print("setting sync storage to: ", authorDetails);
 					$scope.saveSGDatabase(authorDetails);
 				}
 			});
@@ -59,7 +70,7 @@ app
 
 				// check to make sure the users list exists
 				if (result.users !== undefined) {
-					//console.log("found users: ", result.users);
+					$scope.print("found users: ", result.users);
 
 					//debugger;
 
@@ -67,7 +78,7 @@ app
 
 					$scope.saveSGDatabase(result);
 				} else {
-					//console.log("no users found, resetting");
+					$scope.print("no users found, resetting");
 
 					ErrorCallback(result);
 				}
@@ -82,7 +93,7 @@ app
 			chrome.storage.sync.set(sgDatabase, function () {
 				//debugger;
 
-				//console.log("sync storage set complete");
+				$scope.print("sync storage set complete");
 
 				if (refreshUsers)
 					$scope.getUsers();
@@ -92,10 +103,11 @@ app
 		$scope.deleteUser = function (user) {
 			//debugger;
 
-			//var selectedUser = $scope.usersList[user];
+			$scope.print("deleting [" + user + "] from list: ",$scope.usersList);
 
-			//$scope.$apply($scope.delete(selectedUser));
 			delete $scope.usersList[user];
+
+			$scope.print("updating sync storage");
 
 			$scope.updateUsersData($scope.usersList);
         }
