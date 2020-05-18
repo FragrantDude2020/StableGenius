@@ -48,65 +48,58 @@
 							</div>
 						</div>
 					</div>
-					<hr style="width: 50%" />
 					<div class="row form-group">
-						<div class="col-xs-2 text-right">
-							<div class="section_title">
-								Clear all data
-							</div>
-						</div>
-						<div class="col-xs-10">
-							<input type="button" value="Clear Data" ng-click="clearData()" />
-						</div>
-					</div>
-					<div class="row form-group">
-						<div class="col-xs-2 text-right">
+						<div class="col-xs-12 col-md-2 text-right">
 							<div class="section_title">
 								<div>
 									User manager
 								</div>
-								<div class="icon-whhg-refresh action_button" title="Refresh users list" ng-click="getUsers()">
+								<div class="title_action_row">
+									<div class="icon-whhg-refresh title_action_button" title="Refresh users list" ng-click="getUsers()">
+									</div>
 								</div>
 							</div>
 						</div>
-						<div class="col-xs-10">
-                            <div class="user_manager_box">
-                                <div style="display: table; margin: 0 auto; font-size: 26px; color: #CCC;" ng-if="gettingUsers == true && usersList === null && usersList !== undefined">
-                                    <img src="/icons/loader.gif" style="height: 32px; width: 32px;" />
-                                    Loading
-                                </div>
-                                <div class="animate-switch-container" ng-switch on="getObjectPropertiesCount(usersList)">
-                                    <div class="animate-switch" ng-switch-when="-2">
-                                        <div class="no_users_found_box">No users data found, created a new initialization. <div class="btn btn-success" ng-click="getUsers()">Click here</div> to refresh this list.</div>
-                                    </div>
-                                    <div class="animate-switch" ng-switch-when="-1|0" ng-switch-when-separator="|">
-                                        No users found
-                                    </div>
-                                    <div class="animate-switch" ng-switch-default>
-										<div class="row form-group">
+						<div class="col-xs-12 col-md-10">
+							<div class="user_manager_box">
+								<div style="display: table; margin: 0 auto; font-size: 26px; color: #CCC;" ng-if="gettingUsers == true && usersList === null && usersList !== undefined">
+									<img src="/icons/loader.gif" style="height: 32px; width: 32px;" />
+									Loading
+								</div>
+								<div class="animate-switch-container" ng-switch on="getObjectPropertiesCount(usersList)">
+									<div class="animate-switch" ng-switch-when="-2">
+										<div class="no_users_found_box">No users data found, created a new initialization. <div class="btn btn-success" ng-click="getUsers()">Click here</div> to refresh this list.</div>
+									</div>
+									<div class="animate-switch" ng-switch-when="-1|0" ng-switch-when-separator="|">
+										No users found
+									</div>
+									<div class="animate-switch" ng-switch-default>
+										<div class="row form-group title_row">
 											<div class="col-xs-1">
 												Actions
 											</div>
 											<div class="col-xs-1 text-center">
-												Upvotes
+												<div class="icon-whhg-arrow-up" style="color: #ff4500" title="Upvotes">
+												</div>
 											</div>
 											<div class="col-xs-1 text-center">
-												Downvotes
+												<div class="icon-whhg-arrow-down" style="color: #7193ff" title="Downvotes">
+												</div>
 											</div>
 											<div class="col-xs-9">
 												Username
 											</div>
 										</div>
-                                        <div ng-else ng-repeat="(userName, userSettings) in usersList">
-											<div class="row form-group">
+										<div ng-repeat="(userName, userSettings) in usersList">
+											<div class="row form-group user_data_row">
 												<div class="col-xs-1">
 													<div class="action_buttons_row">
-														<div class="icon-whhg-squarex delete_button" ng-click="deleteUser(userName)" title="Delete user information"></div>
-														<div class="icon-whhg-square0" title="Clear vote count"></div>
+														<div class="icon-whhg-squarex delete_button action_button" ng-click="deleteUser(userName)" title="Delete user information"></div>
+														<div class="icon-whhg-square0 clear_vote_button action_button" ng-click="clearVoteCount(userName)" title="Clear vote count"></div>
 													</div>
 												</div>
 												<div class="col-xs-1">
-													<div style="display: flex; flex-direction: row; justify-content: space-around">
+													<div class="vote_display">
 														<div ng-if="userSettings.voteValueUp || userSettings.voteValueUp === 0" title="Upvote vote count">
 															[{{userSettings.voteValueUp}}]
 														</div>
@@ -116,7 +109,7 @@
 													</div>
 												</div>
 												<div class="col-xs-1">
-													<div style="display: flex; flex-direction: row; justify-content: space-around">
+													<div class="vote_display">
 														<div ng-if="userSettings.voteValueDn || userSettings.voteValueDn === 0" title="Downvote vote count">
 															[{{userSettings.voteValueDn}}]
 														</div>
@@ -126,8 +119,8 @@
 													</div>
 												</div>
 												<div class="col-xs-9">
-													<div style="display: flex; flex-direction: row">
-														<div style="margin-right: 8px">
+													<div class="user_display">
+														<div class="user_name">
 															{{userName}}
 														</div>
 
@@ -143,9 +136,10 @@
 													</div>
 												</div>
 											</div>
-                                        </div>
-                                    </div>
-                                </div>
+										</div>
+									</div>
+								</div>
+
                                 <!--
 								<div style="margin-top: 32px">
 									users list: [{{(usersList === null ? "null" : (usersList === undefined) ? "undefined" : "got'em")}}] => {{usersList}}<br />
@@ -153,6 +147,16 @@
 								</div>
 								-->
 							</div>
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-xs-12 col-md-2 text-right">
+							<div class="section_title">
+								Clear all data
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-10">
+							<input type="button" class="btn btn-danger" value="Clear Data" ng-click="clearData()" />
 						</div>
 					</div>
 				</div>

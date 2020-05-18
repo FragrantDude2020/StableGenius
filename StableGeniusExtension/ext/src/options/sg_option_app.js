@@ -115,6 +115,19 @@ app
 			}
         }
 
+		$scope.clearVoteCount = function (user) {
+			if (confirm("This will clear all up and down votes for user [" + user + "]. Do you want to continue?")) {
+				$scope.print("deleting [" + user + "] from list: ", $scope.usersList);
+
+				$scope.usersList[user].voteValueUp = 0;
+				$scope.usersList[user].voteValueDn = 0;
+
+				$scope.print("updating sync storage");
+
+				$scope.updateUsersData($scope.usersList);
+			}
+		}
+
 		$scope.getObjectPropertiesCount = function (objectProperty) {
 			if (objectProperty === null)
 				return -1;
