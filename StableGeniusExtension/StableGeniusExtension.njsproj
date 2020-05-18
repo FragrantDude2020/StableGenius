@@ -124,7 +124,6 @@
     <Content Include="ext\js\StableGenius\Services\Common\httpService.js" />
     <Content Include="ext\manifest.json" />
     <Content Include="ext\src\.DS_Store" />
-    <Content Include="ext\src\bg\background.html" />
     <Content Include="ext\src\bg\background.js" />
     <Content Include="ext\src\inject\app.js" />
     <Content Include="ext\src\inject\app_helpers.js">

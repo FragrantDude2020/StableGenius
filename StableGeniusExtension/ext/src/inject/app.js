@@ -79,6 +79,13 @@ $(function ()
 			// update the vote count
 			voteValueUp += voteMagnitudeUp;
 			voteValueDn += voteMagnitudeDn;
+
+			// sanity checks
+			if (voteValueUp < 0)
+				voteValueUp = 0;
+
+			if (voteValueDn < 0)
+				voteValueDn = 0;
 	      		
 	  		// if there is no information for this author, initialize new
 			var authorDetails = result || {};
@@ -89,24 +96,26 @@ $(function ()
 			authorDetails.users[author].voteValueUp = voteValueUp;
 			authorDetails.users[author].voteValueDn = voteValueDn;
 
-			var finalVoteValue = voteValueUp - voteValueDn;
+			//var finalVoteValue = voteValueUp - voteValueDn;
 	      	// write the vote count back out to sync storage
 			chrome.storage.sync.set(authorDetails, function() {
 				// update the front end on success
-				var voteValueElement = $(".vote_value_" + author);
-
-				if (finalVoteValue == 0)
-					voteValueElement.html("");
-				else {
-					voteValueElement.html("[" + finalVoteValue + "]");
-
-					//debugger;
-
-					$(".vote_value_" + author).css("background-color", "rgba(" + (finalVoteValue < 0 ? "192, 0" : "0, 192") + ", 0, " + (Math.abs(finalVoteValue) / 10) + ")");
-				}
+				setVoteValue(author, voteValueUp - voteValueDn);
 	        });		
 		});
 	});
+
+	var setVoteValue = function (author, finalVoteValue) {
+		var voteValueElement = $(".vote_value_" + author);
+
+		if (finalVoteValue == 0)
+			voteValueElement.html("");
+		else {
+			voteValueElement.html("[" + finalVoteValue + "]");
+
+			voteValueElement.css("background-color", "rgba(" + (finalVoteValue < 0 ? "192, 0" : "0, 192") + ", 0, " + (Math.abs(finalVoteValue) / 10) + ")");
+		}
+    }
 
 	// place inline elements and update user information
 	var url = chrome.runtime.getURL('/src/inject/sg_inline_content.html');
@@ -139,11 +148,7 @@ $(function ()
 							if (result.users[author] !== undefined) {
 
 								// update vote count
-								var finalVoteValue = (result.users[author].voteValueUp || 0) - (result.users[author].voteValueDn || 0);
-								if (finalVoteValue != 0) {
-									$(".vote_value_" + author).html("[" + finalVoteValue + "]");
-									$(".vote_value_" + author).css("background-color", "rgba(" + (finalVoteValue < 0 ? "192, 0" : "0, 192") + ", 0, " + (Math.abs(finalVoteValue) / 10) + ")");
-								}
+								setVoteValue(author, (result.users[author].voteValueUp || 0) - (result.users[author].voteValueDn || 0));
 
 								// update tag
 								if (result.users[author].authorTag) {
