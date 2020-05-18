@@ -83,6 +83,20 @@
                                         No users found
                                     </div>
                                     <div class="animate-switch" ng-switch-default>
+										<div class="row form-group">
+											<div class="col-xs-1">
+												Actions
+											</div>
+											<div class="col-xs-1 text-center">
+												Upvotes
+											</div>
+											<div class="col-xs-1 text-center">
+												Downvotes
+											</div>
+											<div class="col-xs-9">
+												Username
+											</div>
+										</div>
                                         <div ng-else ng-repeat="(userName, userSettings) in usersList">
 											<div class="row form-group">
 												<div class="col-xs-1">
@@ -91,12 +105,27 @@
 														<div class="icon-whhg-square0" title="Clear vote count"></div>
 													</div>
 												</div>
-												<div class="col-xs-1 text-right">
-													<div ng-if="userSettings.voteValue || userSettings.voteValue === 0" title="Overall vote count">
-														[{{userSettings.voteValue}}]
+												<div class="col-xs-1">
+													<div style="display: flex; flex-direction: row; justify-content: space-around">
+														<div ng-if="userSettings.voteValueUp || userSettings.voteValueUp === 0" title="Upvote vote count">
+															[{{userSettings.voteValueUp}}]
+														</div>
+														<div ng-if="!userSettings.voteValueUp && userSettings.voteValueUp !== 0" title="Upvote vote count">
+															[0]
+														</div>
 													</div>
 												</div>
-												<div class="col-xs-10">
+												<div class="col-xs-1">
+													<div style="display: flex; flex-direction: row; justify-content: space-around">
+														<div ng-if="userSettings.voteValueDn || userSettings.voteValueDn === 0" title="Downvote vote count">
+															[{{userSettings.voteValueDn}}]
+														</div>
+														<div ng-if="!userSettings.voteValueDn && userSettings.voteValueDn !== 0" title="Downvote vote count">
+															[0]
+														</div>
+													</div>
+												</div>
+												<div class="col-xs-9">
 													<div style="display: flex; flex-direction: row">
 														<div style="margin-right: 8px">
 															{{userName}}
