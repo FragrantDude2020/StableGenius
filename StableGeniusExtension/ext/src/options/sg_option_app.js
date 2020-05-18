@@ -46,10 +46,11 @@ app
 					//debugger;
 
 					$scope.$apply(function () {
-						$scope.usersList = angular.copy(result.users);
+						$scope.usersList = result.users;
 
 						$scope.print("assigned users: ", $scope.usersList);
 					});
+					setAuthorTagClick();
 				} else {
 					$scope.print("no users found, resetting");
 
@@ -103,13 +104,15 @@ app
 		$scope.deleteUser = function (user) {
 			//debugger;
 
-			$scope.print("deleting [" + user + "] from list: ",$scope.usersList);
+			if (confirm("This will delete all information for user [" + user + "]. Do you want to continue?")) {
+				$scope.print("deleting [" + user + "] from list: ", $scope.usersList);
 
-			delete $scope.usersList[user];
+				delete $scope.usersList[user];
 
-			$scope.print("updating sync storage");
+				$scope.print("updating sync storage");
 
-			$scope.updateUsersData($scope.usersList);
+				$scope.updateUsersData($scope.usersList);
+			}
         }
 
 		$scope.getObjectPropertiesCount = function (objectProperty) {
@@ -122,7 +125,7 @@ app
 			//debugger;
 
 			return Object.getOwnPropertyNames(objectProperty).length;
-        }
+		}
 
 		$scope.getUsers();
 	}]);

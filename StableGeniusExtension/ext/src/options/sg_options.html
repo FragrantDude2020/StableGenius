@@ -6,6 +6,7 @@
 	<link rel="stylesheet" href="../../css/angular/bootstrap.min.css" />
 	<link rel="stylesheet" href="../../css/angular/whhg.css" />
 	<link rel="stylesheet" href="../../css/angular/angular-material.min.css" />
+	<link rel="stylesheet" href="../../css/custom.css" />
 
 	<script src="../../js/angular/jquery2.2.2/jquery.min.js"></script>
 	<script src="../../js/angular/jquery.validate.min.js"></script>
@@ -23,8 +24,10 @@
 	<script src="../../js/angular/ui-bootstrap-tpls-2.5.0.js"></script>
 	<script src="../../js/angular/JSLINQ.js"></script>
 
+	<script src="../inject/app_helpers.js?v=0.0.1"></script>
+
 	<!-- Chrome extensions no longer allow 'unsafe-inline', see: https://stackoverflow.com/a/11672134 -->
-	<script src="sg_options_ang.js?v=0.0.1"></script> 
+	<script src="sg_options_ang.js?v=0.0.1"></script>
 
 	<script src="../../js/StableGenius/Services/Common/alertService.js?v=0.0.1"></script>
 	<script src="../../js/StableGenius/Services/Common/httpService.js?v=0.0.1"></script>
@@ -36,11 +39,11 @@
 	<body text="black" bottomMargin="0" leftMargin="0" topMargin="0" rightMargin="0">
 		<div ng-app="app" ng-strict-di>
 			<div ng-controller="OptionsPageController">
-				<div style="border: solid 1px black; padding: 20px; margin: 48px">
+				<div class="options_main_box">
 					<div class="row form-group">
 						<div class="col-xs-12">
-							<div style="display: flex; flex-direction: row; justify-content: center; align-items: center">
-								<img src="../../icons/icon_128.png" style="margin-right: 32px; height: 96px" />
+							<div class="title_box">
+								<img src="../../icons/icon_128.png" class="logo_image" />
 								<h2>Stable Genius for TheDonald.win - Options</h2>
 							</div>
 						</div>
@@ -48,7 +51,9 @@
 					<hr style="width: 50%" />
 					<div class="row form-group">
 						<div class="col-xs-2 text-right">
-							Clear all data
+							<div class="section_title">
+								Clear all data
+							</div>
 						</div>
 						<div class="col-xs-10">
 							<input type="button" value="Clear Data" ng-click="clearData()" />
@@ -56,48 +61,65 @@
 					</div>
 					<div class="row form-group">
 						<div class="col-xs-2 text-right">
-							<div style="display: flex; flex-direction: column; justify-items: flex-end">
+							<div class="section_title">
 								<div>
 									User manager
 								</div>
-								<div style="display: flex; flex-direction: row; justify-content: flex-end">
-									<div class="icon-whhg-refresh" title="Refresh users list" style="font-size: 80%" ng-click="getUsers()">
-									</div>
+								<div class="icon-whhg-refresh action_button" title="Refresh users list" ng-click="getUsers()">
 								</div>
 							</div>
 						</div>
 						<div class="col-xs-10">
-							<div style="border: solid 1px black">
-								<div style="display: table; margin: 0 auto; font-size: 26px; color: #CCC;" ng-if="gettingUsers == true && usersList === null && usersList !== undefined">
-									<img src="/icons/loader.gif" style="height: 32px; width: 32px;" />
-									Loading
-								</div>
-								<div class="animate-switch-container" ng-switch on="getObjectPropertiesCount(usersList)">
-									<div class="animate-switch" ng-switch-when="-2">
-										<div style="display: flex; flex-direction: row">No users data found, created a new initialization. <div class="btn btn-success" ng-click="getUsers()">Click here</div> to refresh this list.</div>
-									</div>
-									<div class="animate-switch" ng-switch-when="-1|0" ng-switch-when-separator="|">
-										No users found
-									</div>
-									<div class="animate-switch" ng-switch-default>
-										<div ng-else ng-repeat="(key, value) in usersList">
+                            <div class="user_manager_box">
+                                <div style="display: table; margin: 0 auto; font-size: 26px; color: #CCC;" ng-if="gettingUsers == true && usersList === null && usersList !== undefined">
+                                    <img src="/icons/loader.gif" style="height: 32px; width: 32px;" />
+                                    Loading
+                                </div>
+                                <div class="animate-switch-container" ng-switch on="getObjectPropertiesCount(usersList)">
+                                    <div class="animate-switch" ng-switch-when="-2">
+                                        <div class="no_users_found_box">No users data found, created a new initialization. <div class="btn btn-success" ng-click="getUsers()">Click here</div> to refresh this list.</div>
+                                    </div>
+                                    <div class="animate-switch" ng-switch-when="-1|0" ng-switch-when-separator="|">
+                                        No users found
+                                    </div>
+                                    <div class="animate-switch" ng-switch-default>
+                                        <div ng-else ng-repeat="(userName, userSettings) in usersList">
 											<div class="row form-group">
 												<div class="col-xs-1">
-													<div class="icon-whhg-squarex" style="color: #b00" ng-click="deleteUser(key)"></div>
+													<div class="action_buttons_row">
+														<div class="icon-whhg-squarex delete_button" ng-click="deleteUser(userName)" title="Delete user information"></div>
+														<div class="icon-whhg-square0" title="Clear vote count"></div>
+													</div>
 												</div>
-												<div class="col-xs-2 text-right">
-													{{key}}
+												<div class="col-xs-1 text-right">
+													<div ng-if="userSettings.voteValue || userSettings.voteValue === 0" title="Overall vote count">
+														[{{userSettings.voteValue}}]
+													</div>
 												</div>
-												<div class="col-xs-9">
-													{{value}}
+												<div class="col-xs-10">
+													<div style="display: flex; flex-direction: row">
+														<div style="margin-right: 8px">
+															{{userName}}
+														</div>
+
+														<div ng-repeat="(prop, propValue) in value">
+															<div ng-if="prop != 'voteValue'">
+																{{propValue}}
+															</div>
+														</div>
+
+														<div ng-hide="value.hasOwnProperty('authorTag')">
+															<div class="icon-whhg-keyboarddelete sg_author_tag" title="Change user tag"></div>
+														</div>
+													</div>
 												</div>
 											</div>
-										</div>
-									</div>
-								</div>
-								<!--
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--
 								<div style="margin-top: 32px">
-									users list: {{usersList}}{{(usersList === null ? "null" : "undefined")}}<br />
+									users list: [{{(usersList === null ? "null" : (usersList === undefined) ? "undefined" : "got'em")}}] => {{usersList}}<br />
 									properties count: {{getObjectPropertiesCount(usersList)}}
 								</div>
 								-->

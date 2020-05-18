@@ -9,10 +9,13 @@
     "48": "icons/icon_48.png",
     "128": "icons/icon_128.png"
   },
-  "content_security_policy": "script-src 'self' 'unsafe-inline'",
+  "content_security_policy": "script-src 'self' 'unsafe-eval'",
   "default_locale": "en",
   "background": {
-    "scripts": [ "src/bg/background.js" ],
+    "scripts": [
+      "src/inject/app_helpers.js",
+      "src/bg/background.js"
+    ],
     "persistent": true
   },
   "permissions": [
@@ -23,20 +26,25 @@
   "options_page": "src/options/sg_options.html",
   "content_scripts": [
     {
+      "run_at": "document_end",
       "matches": [
         "https://thedonald.win/*"
       ],
       "js": [
         "js/jquery/jquery.min.js",
-        "src/inject/app.js",
-        "src/inject/inject.js"
+        "src/inject/app_helpers.js",
+        "src/inject/app.js"
       ],
       "css": [
+        "css/angular/whhg.css",
         "css/custom.css"
       ]
     }
   ],
   "web_accessible_resources": [
-    "src/inject/author_tag_options.html"
+    "src/inject/author_tag_options.html",
+    "src/inject/sg_inline_content.html",
+    "css/fonts/webhostinghub-glyphs.eot",
+    "css/fonts/webhostinghub-glyphs.ttf"
   ]
 }

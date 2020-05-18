@@ -106,6 +106,7 @@
     <Content Include="ext\js\angular\jquery.validate.unobtrusive.min.js" />
     <Content Include="ext\js\angular\jquery2.2.2\jquery.min.js" />
     <Content Include="ext\js\angular\JSLINQ.js" />
+    <Content Include="ext\js\angular\spectrum.min.js" />
     <Content Include="ext\js\angular\ui-bootstrap-tpls-2.5.0.js" />
     <Content Include="ext\js\jquery\.gitignore" />
     <Content Include="ext\js\jquery\bower.json" />
@@ -126,9 +127,15 @@
     <Content Include="ext\src\bg\background.html" />
     <Content Include="ext\src\bg\background.js" />
     <Content Include="ext\src\inject\app.js" />
+    <Content Include="ext\src\inject\app_helpers.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="ext\src\inject\author_tag_options.html" />
     <Content Include="ext\src\inject\inject.js" />
     <Content Include="ext\src\inject\large_color_list.html" />
+    <Content Include="ext\src\inject\sg_inline_content.html">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="ext\src\options\sg_options.html" />
     <Content Include="ext\src\options\sg_options_ang.js">
       <SubType>Code</SubType>

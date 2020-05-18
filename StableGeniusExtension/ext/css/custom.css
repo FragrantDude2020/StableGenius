@@ -49,3 +49,50 @@
   top:5px;
   right:-5px;
 }
+
+.options_main_box {
+    border: solid 1px black;
+    padding: 20px;
+    margin: 48px;
+}
+
+    .options_main_box .title_box {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+        .options_main_box .title_box .logo_image {
+            margin-right: 32px;
+            height: 96px;
+        }
+
+    .options_main_box .section_title {
+        display: flex;
+        flex-direction: column;
+        justify-items: flex-end;
+        font-weight: bold;
+    }
+
+        .options_main_box .section_title .action_button {
+            font-size: 80%;
+        }
+
+    .options_main_box .user_manager_box {
+        border: solid 1px black;
+    }
+
+        .options_main_box .user_manager_box .no_users_found_box {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .options_main_box .user_manager_box .action_buttons_row {
+            display: flex;
+            flex-direction: row;
+        }
+
+            .options_main_box .user_manager_box .action_buttons_row .delete_button {
+                color: #b00;
+            }

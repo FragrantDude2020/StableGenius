@@ -1,4 +1,4 @@
-$(function()
+$(function ()
 {
 	$(".vote a").click(function (event) {
 		// get the author element items
@@ -93,6 +93,54 @@ $(function()
 		});
 	});
 
+	var url = chrome.runtime.getURL('/src/inject/sg_inline_content.html');
+	$.ajax({
+		url: url,
+		success: function (data, status, xhdr) {
+			// place all inline author elements after the username link
+			$(".author").after(function (index, author) {
+				//debugger;
+
+				// replace template strings
+				currentElement = data.replace(new RegExp("{{author}}", 'g'), author);
+
+				return currentElement;
+			});
+		},
+		complete: function (xhdr, status) {
+			if (status === "success") {
+				//debugger;
+
+				// async get the author data and update the vote count and user tag if they exist
+				chrome.storage.sync.get(["users"], function (result) {
+					//debugger;
+					if (result.users !== undefined) {
+						$(".author").each(function (index, authorElement) {
+							var author = authorElement.innerHTML;
+
+							//debugger;
+
+							if (result.users[author] !== undefined) {
+
+								// update vote count
+								if (result.users[author].voteValue != undefined && result.users[author].voteValue != 0) {
+									$(".vote_value_" + author).html("[" + result.users[author].voteValue + "]");
+								}
+
+								// update tag
+								if (result.users[author].authorTag) {
+									$(".author_tag_" + author).html("[" + result.users[author].authorTag + "]");
+									$(".author_tag_" + author).attr("title", result.users[author].authorTag);
+								}
+							}
+						});
+					}
+				});
+			}
+        }
+	});
+
+	/*
 	// run through each user and add an author vote count element, and load up vote counts if they exist (shows nothing if no vote count or vote count = 0)
 	$(".author").replaceWith(function (index, origText) {
 		var authorElement = $(this);
@@ -103,20 +151,38 @@ $(function()
 
 		// async get the author data and update the vote count if it exists
 		chrome.storage.sync.get(["users"], function (result) {
-			if (result.users !== undefined && result.users[author] !== undefined && result.users[author].voteValue != undefined && result.users[author].voteValue != 0) {
-				$(".vote_value_" + author).html("[" + result.users[author].voteValue + "]");
-			}
+			if (result.users !== undefined && result.users[author] !== undefined) {
 
+				// update vote count
+				if (result.users[author].voteValue != undefined && result.users[author].voteValue != 0) {
+					$(".vote_value_" + author).html("[" + result.users[author].voteValue + "]");
+				}
+
+				// update tag
+				if (result.users[author].authorTag) {
+					$(".author_tag_" + author).html("[" + result.users[author].authorTag + "]");
+					$(".author_tag_" + author).attr("title", result.users[author].authorTag);
+				}
+			}
 		});
 
 		// add the vote count element
 		if (author != "deleted") {
-			origHtml = "<span class='sg_insert_element'><div class='sg_inline_content'>" + origHtml + "&nbsp;<div class='vote_value_" + author + "'></div></div></span>";
+			origHtml = "<span class='sg_insert_element'><div class='sg_inline_content'>"
+				+ origHtml
+				+ "&nbsp;<div class='vote_value_"
+				+ author
+				+ "'></div>"
+				+ "&nbsp;<div class='sg_author_tag author_tag_"
+				+ author
+				+ " icon-whhg-keyboarddelete' title='No tag for this user'></div>"
+				+ "</div></span>";
 		}
 
 		return origHtml;
 	});
-
+	*/
+	/*
 	// run through each user and add an author tag element, and load up author tags if they exist
 	$(".details").append(function (index, origText) {
 		var authorElement = $(this).find(".author");
@@ -138,110 +204,18 @@ $(function()
 
 		// add the author tag element
 		if (author != "deleted") {
-			origHtml = "<span class='sg_insert_element'><div class='sg_inline_content'>&nbsp;<div class='sg_author_tag author_tag_" + author + "' title='No tag for this user'>&#8998;</div></div></span>";
+			origHtml = "<span class='sg_insert_element'><div class='sg_inline_content'>&nbsp;<div class='sg_author_tag author_tag_" + author + " icon-whhg-keyboarddelete' title='No tag for this user'></div></div></span>";
 		}
 
 		return origHtml;
 	});
+	*/
 
-	$(".sg_author_tag").click(function (e) {
-		var authorElement = $(this);
+	//debugger;
 
-		//debugger;
-
-		var url = chrome.runtime.getURL('src/inject/author_tag_options.html');
-
-		//debugger;
-
-		$.ajax({
-			url: url,
-			success: function (data) {
-    			//debugger;
-
-    			console.log("Opening modal now");
-
-				modal.open({
-					content: data,
-					//height: 500, //window.innerHeight - e.screenY,
-					top: e.pageY,
-					left: e.pageX + authorElement.outerWidth()
-				});
-    		}
-		});
-	});
+	setAuthorTagClick();
 
 	console.log(">>> end of DOM ready");
 });
 
 
-var modal = (function(){
-	var 
-	method = {},
-	$overlay,
-	$modal,
-	$content,
-	$close;
-
-	// Center the modal in the viewport
-	method.center = function () {
-		var top, left;
-
-		top = Math.max($(window).height() - $modal.outerHeight(), 0) / 2;
-		left = Math.max($(window).width() - $modal.outerWidth(), 0) / 2;
-
-		$modal.css({
-			top:top + $(window).scrollTop(), 
-			left:left + $(window).scrollLeft()
-		});
-	};
-
-	// Open the modal
-	method.open = function (settings) {
-		//debugger;
-		$content.empty().append(settings.content);
-
-		$modal.css({
-			width: settings.width || 'auto', 
-			height: settings.height || 'auto',
-			top: settings.top || 'auto',
-			left: settings.left || 'auto'
-		});
-
-		if (!settings.top && !settings.left) {
-			method.center();
-			$(window).bind('resize.modal', method.center);
-		}
-
-		$modal.show();
-		//$overlay.show();
-	};
-
-	// Close the modal
-	method.close = function () {
-		$modal.hide();
-		$overlay.hide();
-		$content.empty();
-		$(window).unbind('resize.modal');
-	};
-
-	// Generate the HTML and add it to the document
-	$overlay = $('<div id="sg_overlay"></div>');
-	$modal = $('<div id="sg_modal"></div>');
-	$content = $('<div id="sg_content"></div>');
-	$close = $('<a id="sg_close" href="#">&#10006;</a>');
-
-	$modal.hide();
-	$overlay.hide();
-	$modal.append($content, $close);
-
-	$(document).ready(function(){
-		$('body').append($overlay, $modal);						
-	});
-
-	$close.click(function(e){
-		e.preventDefault();
-		method.close();
-	});
-
-	return method;
-}());
