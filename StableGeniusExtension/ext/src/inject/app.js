@@ -126,8 +126,10 @@ $(function ()
 			$(".author").after(function (index, author) {
 				//debugger;
 
-				// replace template strings
-				currentElement = data.replace(new RegExp("{{author}}", 'g'), author);
+				if (author != "deleted") {
+					// replace template strings
+					currentElement = data.replace(new RegExp("{{author}}", 'g'), author);
+				}
 
 				return currentElement;
 			});
@@ -145,28 +147,52 @@ $(function ()
 
 							//debugger;
 
-							if (result.users[author] !== undefined) {
+							if (author != "deleted" && result.users[author] !== undefined) {
+								//debugger;
 
 								// update vote count
 								setVoteValue(author, (result.users[author].voteValueUp || 0) - (result.users[author].voteValueDn || 0));
 
 								// update tag
+								var authorTag = $(authorElement).parent().find(".author_tag_" + author);
 								if (result.users[author].authorTag) {
-									$(".author_tag_" + author).html("[" + result.users[author].authorTag + "]");
-									$(".author_tag_" + author).attr("title", result.users[author].authorTag);
-								}
+
+									authorTag.html(result.users[author].authorTag);
+									authorTag.attr("title", result.users[author].authorTag);
+
+									//debugger;
+
+									authorTag.data("author", author);
+									authorTag.data("tag", result.users[author].authorTag);
+									authorTag.data("tagColor", result.users[author].authorTagColor);
+									authorTag.data("tagBackground", result.users[author].authorTagBackground);
+
+									//debugger;
+
+									authorTag.removeClass("icon-whhg-keyboarddelete");
+
+									authorTag.html(result.users[author].authorTag);
+									authorTag.css("color", result.users[author].authorTagColor);
+									authorTag.css("background-color", result.users[author].authorTagBackground);
+								} else {
+									authorTag.addClass("icon-whhg-keyboarddelete")
+
+									authorTag.html("");
+									authorTag.css("color", "");
+									authorTag.css("background-color", "");
+                                }
 							}
 						});
 					}
+
+					// sets up the functionality for clicking the user tag
+					setAuthorTagClick();
 				});
 			}
         }
 	});
 
 	//debugger;
-
-	// sets up the functionality for clicking the user tag
-	setAuthorTagClick();
 
 	console.log(">>> end of DOM ready");
 });

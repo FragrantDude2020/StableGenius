@@ -23,17 +23,18 @@ app
 				//debugger;
 
 				chrome.storage.sync.clear(function () {
-					$scope.getUsers();
+					$scope.getUsersData();
 				});
 			}
 		}
 
-		$scope.getUsers = function () {
+		$scope.getUsersData = function () {
 			$scope.usersList = null;
 			$scope.gettingUsers = true;
 
 			$scope.print("getting users");
 
+			/*
 			chrome.storage.sync.get(["users"], function (result) {
 				//debugger;
 
@@ -63,8 +64,34 @@ app
 					$scope.saveSGDatabase(authorDetails);
 				}
 			});
+			*/
+			getUsers(function (result) {
+				//debugger;
+
+				$scope.gettingUsers = false;
+
+				// check to make sure the users list exists
+				if (result.users !== undefined) {
+					$scope.print("found users: ", result.users);
+
+					//debugger;
+
+					$scope.$apply(function () {
+						$scope.usersList = result.users;
+
+						$scope.print("assigned users: ", $scope.usersList);
+					});
+
+					setAuthorTagClick();
+				}
+			},
+			function (authorDetails) {
+				$scope.print("no users found, resetting");
+				$scope.print("setting sync storage to: ", authorDetails);
+			});
 		}
 
+		/*
 		$scope.updateUsersData = function (usersList, ErrorCallback) {
 			chrome.storage.sync.get(["users"], function (result) {
 				//debugger;
@@ -97,9 +124,34 @@ app
 				$scope.print("sync storage set complete");
 
 				if (refreshUsers)
-					$scope.getUsers();
+					$scope.getUsersData();
 			});		
 		}
+		*/
+		$scope.updateUsersData = function (usersList) {
+			updateUsers(usersList, function (result) {
+				$scope.print("found users: ", result.users);
+			},
+			function (result) {
+				$scope.print("no users found, resetting, ", result);
+			});
+		}
+
+		/*
+		$scope.saveSGDatabase = function (sgDatabase, refreshUsers) {
+			refreshUsers = refreshUsers || true;
+
+			// write the new users list back out to sync storage
+			chrome.storage.sync.set(sgDatabase, function () {
+				//debugger;
+
+				$scope.print("sync storage set complete");
+
+				if (refreshUsers)
+					$scope.getUsersData();
+			});
+		}
+		*/
 
 		$scope.deleteUser = function (user) {
 			//debugger;
@@ -113,7 +165,7 @@ app
 
 				$scope.updateUsersData($scope.usersList);
 			}
-        }
+		}
 
 		$scope.clearVoteCount = function (user) {
 			if (confirm("This will clear all up and down votes for user [" + user + "]. Do you want to continue?")) {
@@ -140,5 +192,5 @@ app
 			return Object.getOwnPropertyNames(objectProperty).length;
 		}
 
-		$scope.getUsers();
+		$scope.getUsersData();
 	}]);

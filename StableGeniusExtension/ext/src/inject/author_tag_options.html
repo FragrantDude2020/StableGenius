@@ -1,27 +1,43 @@
 <script src="../../js/angular/spectrum.min.js"></script>
+<script src="../../src/inject/app_helpers.js"></script>
 <link rel="stylesheet" type="text/css" href="../../css/angular/spectrum.min.css">
-<div style="font-size: 80%">
-	<div style="font-size: 120%; text-align: center; padding: 6px 0; background-color: rgba(0, 0, 0, 0.3);">Tag User</div>
-	<div id="sg_preview">Preview</div>
-	<div style="padding: 16px 0">
-		<label>
-			Tag
-			<input id="sg_preview_text_input" class="form_control" type="text" style="width: 100%">
-		</label>
+<div class="content_box">
+	<div class="title_row">
+		<i class='icon-whhg-keyboarddelete'></i>&nbsp;
+		<div id="options_title">Tag User</div>
 	</div>
-	<input id='colorpicker' value="#f00" />
+	<div id="sg_content_box" class="tag_options">
+		<div class="tag_section">
+			<label>Preview</label>
+			<div id="sg_preview" style="width: 75%"></div>
+		</div>
+		<div class="tag_section">
+			<label>Tag</label>
+			<input id="sg_preview_text_input" class="form_control" type="text" style="width: 75%">
+		</div>
+		<div class="tag_section">
+			<label>Color</label>
+			<input id='colorpicker' value="#fff" />
+		</div>
+		<div class="tag_section save_button_row">
+			&nbsp; <!-- placeholder row for save button -->
+		</div>
+	</div>
 	<script>
 		function changeColor(tinyColor) {
-			console.log("tiny color: ", tinyColor.toHexString());
+			//console.log("tiny color: ", tinyColor.toHexString());
 
 			//debugger;
 
 			$("#sg_preview").css("background-color", tinyColor.toHexString());
+			$("#sg_preview").css("color", $("#colorpicker").css("color"));
 		}
 
+		/*
 		function hideSpectrum(color) {
-			debugger;
+			//debugger;
 		}
+		*/
 
 		$(function () {
 			$("#colorpicker").spectrum({
@@ -31,13 +47,24 @@
 				hideAfterPaletteSelect: "true",
 				showInput: "true",
 				showInitial: "true",
-				color: "#f00",
-				change: changeColor,
-				hide: hideSpectrum
+				color: "#fff",
+				change: changeColor//,
+				//hide: hideSpectrum
 			});
 
 			$('#sg_preview_text_input').on('input propertychange paste', function (eventData) {
-				debugger;
+				var inputValue = eventData.target.value;
+
+				//debugger;
+
+				$("#sg_preview").html(inputValue);
+
+				if (inputValue != "") {
+					$("#sg_preview").removeClass("icon-whhg-keyboarddelete");
+				}
+				else {
+					$("#sg_preview").addClass("icon-whhg-keyboarddelete")
+				}
 			});
 		});
 	</script>

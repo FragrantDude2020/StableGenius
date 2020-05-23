@@ -36,7 +36,7 @@
 
 	<script src="sg_option_app.js?v=0.0.1"></script>
 </head>		
-	<body text="black" bottomMargin="0" leftMargin="0" topMargin="0" rightMargin="0">
+	<body text="black" bottomMargin="0" leftMargin="0" topMargin="0" rightMargin="0" style="background-color: #eee; padding: 48px;">
 		<div ng-app="app" ng-strict-di>
 			<div ng-controller="OptionsPageController">
 				<div class="options_main_box">
@@ -55,7 +55,7 @@
 									User manager
 								</div>
 								<div class="title_action_row">
-									<div class="icon-whhg-refresh title_action_button" title="Refresh users list" ng-click="getUsers()">
+									<div class="icon-whhg-refresh title_action_button" title="Refresh users list" ng-click="getUsersData()">
 									</div>
 								</div>
 							</div>
@@ -121,17 +121,13 @@
 												<div class="col-xs-9">
 													<div class="user_display">
 														<div class="user_name">
-															{{userName}}
+															<a href="https://thedonald.win/u/{{userName}}" target="_blank">{{userName}}</a>
 														</div>
 
-														<div ng-repeat="(prop, propValue) in value">
-															<div ng-if="prop != 'voteValue'">
-																{{propValue}}
-															</div>
-														</div>
+														<div ng-class="{'icon-whhg-keyboarddelete': !userSettings.authorTag }" class="sg_author_tag author_tag_{{userName}} options_window" ng-style="{'color': (userSettings.authorTagColor != '') ? userSettings.authorTagColor : 'inherit', 'background-color': (userSettings.authorTagBackground != '') ? userSettings.authorTagBackground : 'inherit'}" data-author="{{userName}}" data-tag="{{userSettings.authorTag}}" data-tag-color="{{userSettings.authorTagColor}}" data-tag-background="{{userSettings.authorTagBackground}}" title="Add user tag">{{userSettings.authorTag}}</div>
 
-														<div ng-hide="value.hasOwnProperty('authorTag')">
-															<div class="icon-whhg-keyboarddelete sg_author_tag" title="Change user tag"></div>
+														<div ng-if="logLevel > 1" ng-repeat="(prop, propValue) in userSettings">
+															[{{prop}}] => [{{propValue}}]
 														</div>
 													</div>
 												</div>
@@ -140,12 +136,10 @@
 									</div>
 								</div>
 
-                                <!--
-								<div style="margin-top: 32px">
+								<div ng-if="logLevel > 1" style="margin-top: 32px">
 									users list: [{{(usersList === null ? "null" : (usersList === undefined) ? "undefined" : "got'em")}}] => {{usersList}}<br />
-									properties count: {{getObjectPropertiesCount(usersList)}}
+									users count: [{{getObjectPropertiesCount(usersList)}}]
 								</div>
-								-->
 							</div>
 						</div>
 					</div>
