@@ -22,10 +22,9 @@ var modal = (function () {
 
 	// Open the modal
 	method.open = function (settings) {
-		debugger;
+		//debugger;
 
-		$content.empty();
-		$content.append(settings.content);
+		$content.empty().append(settings.content);
 
 		$modal.css({
 			width: settings.width || 'auto',
@@ -77,7 +76,7 @@ var modal = (function () {
 	$modal.append($content, $close, $save);
 
 	$(document).ready(function () {
-		$('article').append($overlay, $modal);
+		$('body').append($overlay, $modal);
 	});
 
 	$close.click(function (e) {
@@ -101,12 +100,14 @@ var modal = (function () {
 function setAuthorTagClick() {
 	//debugger;
 
+	/*
 	console.log("setting author tag styles");
 	$(".sg_author_tag").each(function (index, tag) {
 		var x = 0;
 
 		//debugger;
 	});
+	*/
 
 	console.log("setting author tag clicks");
 
@@ -128,7 +129,7 @@ function setAuthorTagClick() {
 
 				console.log("Opening modal now");
 
-				debugger;
+				//debugger;
 
 				modal.open({
 					content: data,
@@ -160,8 +161,8 @@ function saveAuthorTag(targetOptionsWindow) {
 
 		if (currentUser) {
 			currentUser.authorTag = tagContent;
-			currentUser.authorTagColor = tagColor;
-			currentUser.authorTagBackground = tagBackground;
+			currentUser.authorTagColor = ((tagContent == "") ? "" : tagColor);
+			currentUser.authorTagBackground = ((tagContent == "") ? "" : tagBackground);
 
 			updateUser(author, currentUser);
         }

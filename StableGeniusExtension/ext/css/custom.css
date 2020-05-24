@@ -10,7 +10,7 @@
 
 .sg_author_tag {
     cursor: pointer;
-    font-size: 120%;
+    font-size: 100%;
 }
 
     .sg_author_tag:not(.icon-whhg-keyboarddelete) {
