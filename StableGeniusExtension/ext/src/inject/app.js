@@ -105,6 +105,7 @@ $(function ()
 		});
 	});
 
+	// sets the vote value display
 	var setVoteValue = function (author, finalVoteValue) {
 		var voteValueElement = $(".vote_value_" + author);
 
@@ -113,6 +114,7 @@ $(function ()
 		else {
 			voteValueElement.html("[" + finalVoteValue + "]");
 
+			// TODO: make these colors look nicer as up/downvotes accumulate
 			voteValueElement.css("background-color", "rgba(" + (finalVoteValue < 0 ? "192, 0" : "0, 192") + ", 0, " + (Math.abs(finalVoteValue) / 10) + ")");
 		}
     }

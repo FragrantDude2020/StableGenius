@@ -24,10 +24,13 @@ var modal = (function () {
 	method.open = function (settings) {
 		//debugger;
 
+		// add the HTML content
 		$content.empty().append(settings.content);
 
+		// add functionality to modal
 		setupInlineEditor();
 
+		// set modal size
 		$modal.css({
 			width: settings.width || 'auto',
 			height: settings.height || 'auto',
@@ -35,6 +38,7 @@ var modal = (function () {
 			left: settings.left || 'auto'
 		});
 
+		// if we don't set a top and left then automatically center the modal in the viewport
 		if (!settings.top && !settings.left) {
 			method.center();
 			$(window).bind('resize.modal', method.center);
@@ -42,6 +46,7 @@ var modal = (function () {
 
 		//debugger;
 
+		// pre-populate the data in the modal
 		$modal.find("#options_title").html(settings.titleText);
 		$modal.find("#sg_preview_text_input").val(settings.authorTag);
 		$("#colorpicker").spectrum("set", settings.authorTagBackground || "#fff");
@@ -59,7 +64,7 @@ var modal = (function () {
 	// Close the modal
 	method.close = function () {
 		//debugger;
-		$("#colorpicker").spectrum("destroy");
+		$("#colorpicker").spectrum("destroy"); // the color picker needs to be destroyed, otherwise it leaves an unstyled input box at the bottom of the screen
 		$content.empty();
 		$modal.hide();
 		//$overlay.hide();
@@ -73,32 +78,38 @@ var modal = (function () {
 	$close = $('<a id="sg_close" href="#" title="Close">&#10006;</a>');
 	$save = $('<div class="btn btn-success btn-sm tag_save_button">Save</div>');
 
+	// hide everything
 	$modal.hide();
 	$overlay.hide();
+
+	// on default, add placeholder tags
 	$modal.append($content, $close, $save);
 
+	// inject the modal into the screen HTML
 	$(document).ready(function () {
 		$('body').append($overlay, $modal);
 	});
 
+	// close the modal
 	$close.click(function (e) {
 		e.preventDefault();
 		method.close();
 	});
 
-	//$(".tag_save_button").click(function (event) {
+	// save the user information
 	$save.click(function (event) {
 		event.preventDefault();
 
 		//debugger;
 
-		saveAuthorTag($modal); // $("#sg_content"));
+		saveAuthorTag($modal);
 		method.close();
 	});
 
 	return method;
 }());
 
+// sets up functionality for when a user clicks an author's name tag
 function setAuthorTagClick() {
 	//debugger;
 
@@ -107,21 +118,19 @@ function setAuthorTagClick() {
 	//debugger;
 
 	$(".sg_author_tag").click(function (e) {
+		// save the current element for future use
 		var authorElement = $(this);
-
-		//debugger;
-
+		// get the path to the injectable
 		var url = chrome.runtime.getURL('/src/inject/author_tag_options.html');
 
 		//debugger;
 
+		// pull the injectable file and use it as contents for the modal
 		$.ajax({
 			url: url,
 			dataType: "html",
 			success: function (data) {
-				//debugger;
-
-				console.log("Opening modal now");
+				//console.log("Opening modal now");
 
 				//debugger;
 
@@ -140,7 +149,9 @@ function setAuthorTagClick() {
 	});
 }
 
+// set up functionality to save author information when user clicks "Save"
 function saveAuthorTag(targetOptionsWindow) {
+	// get all the tag information
 	var tagContent = targetOptionsWindow.find("#sg_preview").html();
 	var tagColor = targetOptionsWindow.find("#sg_preview").css("color");
 	var tagBackground = targetOptionsWindow.find("#sg_preview").css("background-color");
@@ -148,23 +159,24 @@ function saveAuthorTag(targetOptionsWindow) {
 
 	//debugger;
 
+	// pull the users from sync storage first just so that we don't accidentally store broken or incomplete data
 	getUsers(function (result) {
-		var currentUser = result.users[author];
-
 		//debugger;
 
-		if (currentUser) {
-			currentUser.authorTag = tagContent;
-			currentUser.authorTagColor = ((tagContent == "") ? "" : tagColor);
-			currentUser.authorTagBackground = ((tagContent == "") ? "" : tagBackground);
+		// set the author tag information, blank out the color and background on empty tag
+		result.users[author].authorTag = tagContent;
+		result.users[author].authorTagColor = ((tagContent == "") ? "" : tagColor);
+		result.users[author].authorTagBackground = ((tagContent == "") ? "" : tagBackground);
 
-			updateUser(author, currentUser);
-        }
+		// save the author information to the sync database
+		updateUser(author, result.users[author]);
 	});
 
 	var authorTag = $(document).find(".author_tag_" + author);
 
+	// automatically update the tag on the screen so that we don't have to waste time refreshing the user information for the whole screen
 	if (!tagContent) {
+		// if no author tag, reset tag icon
 		authorTag.addClass("icon-whhg-keyboarddelete")
 
 		authorTag.html(tagContent);
@@ -172,16 +184,16 @@ function saveAuthorTag(targetOptionsWindow) {
 		authorTag.css("background-color", "");
 	}
 	else {
+		// set author tag icon visuals
 		authorTag.removeClass("icon-whhg-keyboarddelete");
 
 		authorTag.html(tagContent);
 		authorTag.css("color", tagColor);
 		authorTag.css("background-color", tagBackground);
 	}
-
-	//debugger;
 }
 
+// pull the entire users database from sync storage (with optional callbacks)
 function getUsers(SuccessCallback, ErrorCallback) {
 	chrome.storage.sync.get(["users"], function (result) {
 		//debugger;
@@ -193,6 +205,7 @@ function getUsers(SuccessCallback, ErrorCallback) {
 			if (SuccessCallback)
 				SuccessCallback(result);
 		} else {
+			// if the users list doesn't exist, create a new one
 			var authorDetails = result || {};
 
 			// create a new users list
@@ -201,44 +214,48 @@ function getUsers(SuccessCallback, ErrorCallback) {
 			if (ErrorCallback)
 				ErrorCallback(authorDetails);
 
+			// save new list
 			saveSGDatabase(authorDetails);
 		}
 	});
 }
 
-function updateUsers(userData, SuccessCallback, ErrorCallback, isSingleUserData, userName) {
+// update the entire user database, "userData" is the whole users list | update a single user, "userData" is that user's information
+function updateUsers(userData, SuccessCallback, ErrorCallback, userName) {
 	chrome.storage.sync.get(["users"], function (result) {
 		//debugger;
 
 		// check to make sure the users list exists
 		if (result.users !== undefined) {
-			//$scope.print("found users: ", result.users);
-
 			//debugger;
 
-			if (isSingleUserData || false) {
+			// if it's a single user, just save that one user
+			if (userName !== undefined) {
 				result.users[userName] = userData;
 			} else {
 				result.users = userData;
             }
 
+			// allow the success callback before we save the database
 			if (SuccessCallback)
 				SuccessCallback(result);
 
+			// save the database
 			saveSGDatabase(result);
 		} else {
-			//$scope.print("no users found, resetting");
-
+			// do nothing except call the error callback
 			if (ErrorCallback)
 				ErrorCallback(result);
 		}
 	});
 }
 
+// convenience wrapper to update a single user
 function updateUser(userName, userData, SuccessCallback, ErrorCallback) {
-	updateUsers(userData, SuccessCallback, ErrorCallback, true, userName);
+	updateUsers(userData, SuccessCallback, ErrorCallback, userName);
 }
 
+// save the whole Stable Genius database to sync storage, with optional user list refresh
 function saveSGDatabase(sgDatabase, refreshUsers, SuccessCallback, ErrorCallback) {
 	refreshUsers = refreshUsers || true;
 
@@ -246,8 +263,7 @@ function saveSGDatabase(sgDatabase, refreshUsers, SuccessCallback, ErrorCallback
 	chrome.storage.sync.set(sgDatabase, function () {
 		//debugger;
 
-		//$scope.print("sync storage set complete");
-
+		// if a refresh is requested, do that whole thing, otherwise just call the success callback
 		if (refreshUsers) {
 			getUsers(function (result) {
 				if (SuccessCallback)
@@ -264,6 +280,7 @@ function saveSGDatabase(sgDatabase, refreshUsers, SuccessCallback, ErrorCallback
 	});
 }
 
+// update the preview on the tag modal to reflect a new color that the user chose
 function changeColor(tinyColor) {
 	//console.log("tiny color: ", tinyColor.toHexString());
 
@@ -273,14 +290,19 @@ function changeColor(tinyColor) {
 	$("#sg_preview").css("color", $("#colorpicker").css("color"));
 }
 
+// set up functionality for the tag modal
 function setupInlineEditor() {
+	// attach to the text box so we can do a preview update when data changes
 	$('#sg_preview_text_input').on('input propertychange paste', function (eventData) {
+		// get the data the user has typed
 		var inputValue = eventData.target.value;
 
 		//debugger;
 
+		// copy data to preview
 		$("#sg_preview").html(inputValue);
 
+		// if the text box is blank, show the tag in preview
 		if (inputValue != "") {
 			$("#sg_preview").removeClass("icon-whhg-keyboarddelete");
 		}
@@ -291,6 +313,7 @@ function setupInlineEditor() {
 
 	//debugger;
 
+	// set up the Spectrum color picker https://bgrins.github.io/spectrum/
 	$("#colorpicker").spectrum({
 		preferredFormat: "hex",
 		type: "text",

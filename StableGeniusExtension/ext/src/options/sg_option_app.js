@@ -1,14 +1,16 @@
 app
-	.controller("OptionsPageController", ['$scope', '$uibModal', 'httpService', 'alertService', function ($scope, $uibModal, httpService, alertService) {
+	.controller("OptionsPageController", ['$scope', '$uibModal', 'alertService', function ($scope, $uibModal, alertService) {
+		// creates an automatic UIB alert at the bottom of the page
 		$scope.alertService = alertService;
 
-		httpService.DataRootUrl = 'http://localhost';
-
+		// total users list
 		$scope.usersList = undefined;
+		// flag to use to show "Loading" spinner
 		$scope.gettingUsers = false;
-
+		// log levels: 0 = none, 1 = trace, 2 = debug
 		$scope.logLevel = 1;
 
+		// hacked together print function to allow varying log levels
 		$scope.print = function (message, obj) {
 			if ($scope.logLevel > 0) {
 				if (obj)
@@ -18,6 +20,7 @@ app
             }
         }
 
+		// clear all the data from sync storage with warning message
 		$scope.clearData = function () {
 			if (confirm("This will clear all your StableGenius data. Are you sure you want to do this?")) {
 				//debugger;
@@ -28,131 +31,56 @@ app
 			}
 		}
 
+		// get all the user data and set up page elements
 		$scope.getUsersData = function () {
 			$scope.usersList = null;
 			$scope.gettingUsers = true;
 
 			$scope.print("getting users");
 
-			/*
-			chrome.storage.sync.get(["users"], function (result) {
-				//debugger;
-
-				$scope.gettingUsers = false;
-
-				// check to make sure the users list exists
-				if (result.users !== undefined) {
-					$scope.print("found users: ", result.users);
-
-					//debugger;
-
-					$scope.$apply(function () {
-						$scope.usersList = result.users;
-
-						$scope.print("assigned users: ", $scope.usersList);
-					});
-					setAuthorTagClick();
-				} else {
-					$scope.print("no users found, resetting");
-
-					var authorDetails = result || {};
-
-					// create a new users list
-					authorDetails.users = authorDetails.users || {};
-
-					$scope.print("setting sync storage to: ", authorDetails);
-					$scope.saveSGDatabase(authorDetails);
-				}
-			});
-			*/
 			getUsers(function (result) {
-				//debugger;
-
-				$scope.gettingUsers = false;
-
-				// check to make sure the users list exists
-				if (result.users !== undefined) {
-					$scope.print("found users: ", result.users);
-
 					//debugger;
 
-					$scope.$apply(function () {
-						$scope.usersList = result.users;
+					$scope.gettingUsers = false;
 
-						$scope.print("assigned users: ", $scope.usersList);
-					});
+					// check to make sure the users list exists
+					if (result.users !== undefined) {
+						$scope.print("found users: ", result.users);
 
-					setAuthorTagClick();
-				}
-			},
-			function (authorDetails) {
-				$scope.print("no users found, resetting");
-				$scope.print("setting sync storage to: ", authorDetails);
+						//debugger;
+
+						$scope.$apply(function () {
+							$scope.usersList = result.users;
+
+							$scope.print("assigned users: ", $scope.usersList);
+						});
+
+						setAuthorTagClick();
+					}
+				},
+				function (authorDetails) {
+					alertService.addAlert("warning", "No users found!");
+
+					$scope.print("no users found, setting sync storage to: ", authorDetails);
 			});
 		}
 
-		/*
-		$scope.updateUsersData = function (usersList, ErrorCallback) {
-			chrome.storage.sync.get(["users"], function (result) {
-				//debugger;
-
-				// check to make sure the users list exists
-				if (result.users !== undefined) {
-					$scope.print("found users: ", result.users);
-
-					//debugger;
-
-					result.users = usersList;
-
-					$scope.saveSGDatabase(result);
-				} else {
-					$scope.print("no users found, resetting");
-
-					ErrorCallback(result);
-				}
-			});
-
-        }
-
-		$scope.saveSGDatabase = function (sgDatabase, refreshUsers) {
-			refreshUsers = refreshUsers || true;
-
-			// write the new users list back out to sync storage
-			chrome.storage.sync.set(sgDatabase, function () {
-				//debugger;
-
-				$scope.print("sync storage set complete");
-
-				if (refreshUsers)
-					$scope.getUsersData();
-			});		
-		}
-		*/
-		$scope.updateUsersData = function (usersList) {
+		// save the user data back to sync storage
+		$scope.updateUsersData = function (usersList, SuccessCallback) {
 			updateUsers(usersList, function (result) {
 				$scope.print("found users: ", result.users);
+
+				if (SuccessCallback)
+					SuccessCallback(result);
 			},
-			function (result) {
-				$scope.print("no users found, resetting, ", result);
+				function (result) {
+					alertService.addAlert("warning", "No users found!")
+
+					$scope.print("no users found, resetting, ", result);
 			});
 		}
 
-		/*
-		$scope.saveSGDatabase = function (sgDatabase, refreshUsers) {
-			refreshUsers = refreshUsers || true;
-
-			// write the new users list back out to sync storage
-			chrome.storage.sync.set(sgDatabase, function () {
-				//debugger;
-
-				$scope.print("sync storage set complete");
-
-				if (refreshUsers)
-					$scope.getUsersData();
-			});
-		}
-		*/
-
+		// delete a user from the database with confirmation and success messages
 		$scope.deleteUser = function (user) {
 			//debugger;
 
@@ -163,10 +91,13 @@ app
 
 				$scope.print("updating sync storage");
 
-				$scope.updateUsersData($scope.usersList);
+				$scope.updateUsersData($scope.usersList, function (result) {
+					alertService.addAlert("success", "Successfully deleted user");
+				});
 			}
 		}
 
+		// clear a user's recorded vote count with confirmation and success messages
 		$scope.clearVoteCount = function (user) {
 			if (confirm("This will clear all up and down votes for user [" + user + "]. Do you want to continue?")) {
 				$scope.print("deleting [" + user + "] from list: ", $scope.usersList);
@@ -176,10 +107,13 @@ app
 
 				$scope.print("updating sync storage");
 
-				$scope.updateUsersData($scope.usersList);
+				$scope.updateUsersData($scope.usersList, function (result) {
+					alertService.addAlert("success", "Successfully cleared user's vote count");
+				});
 			}
 		}
 
+		// used for logic switching on front end
 		$scope.getObjectPropertiesCount = function (objectProperty) {
 			if (objectProperty === null)
 				return -1;
@@ -192,5 +126,6 @@ app
 			return Object.getOwnPropertyNames(objectProperty).length;
 		}
 
+		// first thing, get all the user data and display
 		$scope.getUsersData();
 	}]);
