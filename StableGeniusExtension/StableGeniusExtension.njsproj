@@ -39,13 +39,11 @@
     <Folder Include="ext\icons\OLD\" />
     <Folder Include="ext\js\" />
     <Folder Include="ext\js\angular\" />
-    <Folder Include="ext\js\angular\jquery2.2.2\" />
     <Folder Include="ext\js\bootstrap.3.4.1\" />
     <Folder Include="ext\js\bootstrap.3.4.1\css\" />
     <Folder Include="ext\js\bootstrap.3.4.1\fonts\" />
     <Folder Include="ext\js\bootstrap.3.4.1\js\" />
     <Folder Include="ext\js\jquery.3.4.1\" />
-    <Folder Include="ext\js\jquery\" />
     <Folder Include="ext\js\StableGenius\" />
     <Folder Include="ext\js\StableGenius\Directives\" />
     <Folder Include="ext\js\StableGenius\Directives\Common\" />
@@ -61,8 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ext\css\angular\angular-material.min.css" />
-    <Content Include="ext\css\angular\bootstrap.css" />
-    <Content Include="ext\css\angular\bootstrap.min.css" />
     <Content Include="ext\css\angular\images\ui-icons_444444_256x240.png" />
     <Content Include="ext\css\angular\images\ui-icons_555555_256x240.png" />
     <Content Include="ext\css\angular\images\ui-icons_777620_256x240.png" />
@@ -104,13 +100,8 @@
     <Content Include="ext\js\angular\angular-sanitize.js" />
     <Content Include="ext\js\angular\angular.js" />
     <Content Include="ext\js\angular\angular.min.js" />
-    <Content Include="ext\js\angular\bootstrap.min.js" />
     <Content Include="ext\js\angular\jquery-ui.js" />
     <Content Include="ext\js\angular\jquery-ui.min.js" />
-    <Content Include="ext\js\angular\jquery.unobtrusive-ajax.min.js" />
-    <Content Include="ext\js\angular\jquery.validate.min.js" />
-    <Content Include="ext\js\angular\jquery.validate.unobtrusive.min.js" />
-    <Content Include="ext\js\angular\jquery2.2.2\jquery.min.js" />
     <Content Include="ext\js\angular\JSLINQ.js" />
     <Content Include="ext\js\angular\spectrum.min.js" />
     <Content Include="ext\js\angular\ui-bootstrap-tpls-2.5.0.js" />
@@ -136,16 +127,6 @@
     <Content Include="ext\js\jquery.3.4.1\jquery.validate.js" />
     <Content Include="ext\js\jquery.3.4.1\jquery.validate.min.js" />
     <Content Include="ext\js\jquery.3.4.1\jquery.validate.unobtrusive.js" />
-    <Content Include="ext\js\jquery\.gitignore" />
-    <Content Include="ext\js\jquery\bower.json" />
-    <Content Include="ext\js\jquery\component.json" />
-    <Content Include="ext\js\jquery\composer.json" />
-    <Content Include="ext\js\jquery\jquery-migrate.js" />
-    <Content Include="ext\js\jquery\jquery-migrate.min.js" />
-    <Content Include="ext\js\jquery\jquery.js" />
-    <Content Include="ext\js\jquery\jquery.min.js" />
-    <Content Include="ext\js\jquery\package.json" />
-    <Content Include="ext\js\jquery\README.md" />
     <Content Include="ext\js\StableGenius\Directives\Common\AlertNotifier.js" />
     <Content Include="ext\js\StableGenius\Directives\Common\Templates\AlertNotifier.html" />
     <Content Include="ext\js\StableGenius\Services\Common\alertService.js" />
