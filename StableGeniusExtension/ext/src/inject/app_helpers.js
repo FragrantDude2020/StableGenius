@@ -26,6 +26,8 @@ var modal = (function () {
 
 		$content.empty().append(settings.content);
 
+		setupInlineEditor();
+
 		$modal.css({
 			width: settings.width || 'auto',
 			height: settings.height || 'auto',
@@ -100,15 +102,6 @@ var modal = (function () {
 function setAuthorTagClick() {
 	//debugger;
 
-	/*
-	console.log("setting author tag styles");
-	$(".sg_author_tag").each(function (index, tag) {
-		var x = 0;
-
-		//debugger;
-	});
-	*/
-
 	console.log("setting author tag clicks");
 
 	//debugger;
@@ -124,6 +117,7 @@ function setAuthorTagClick() {
 
 		$.ajax({
 			url: url,
+			dataType: "html",
 			success: function (data) {
 				//debugger;
 
@@ -269,3 +263,43 @@ function saveSGDatabase(sgDatabase, refreshUsers, SuccessCallback, ErrorCallback
 		}
 	});
 }
+
+function changeColor(tinyColor) {
+	//console.log("tiny color: ", tinyColor.toHexString());
+
+	//debugger;
+
+	$("#sg_preview").css("background-color", tinyColor.toHexString());
+	$("#sg_preview").css("color", $("#colorpicker").css("color"));
+}
+
+function setupInlineEditor() {
+	$('#sg_preview_text_input').on('input propertychange paste', function (eventData) {
+		var inputValue = eventData.target.value;
+
+		//debugger;
+
+		$("#sg_preview").html(inputValue);
+
+		if (inputValue != "") {
+			$("#sg_preview").removeClass("icon-whhg-keyboarddelete");
+		}
+		else {
+			$("#sg_preview").addClass("icon-whhg-keyboarddelete");
+		}
+	});
+
+	//debugger;
+
+	$("#colorpicker").spectrum({
+		preferredFormat: "hex",
+		type: "text",
+		togglePaletteOnly: "true",
+		hideAfterPaletteSelect: "true",
+		showInput: "true",
+		showInitial: "true",
+		color: "#fff",
+		change: changeColor
+	});
+
+};

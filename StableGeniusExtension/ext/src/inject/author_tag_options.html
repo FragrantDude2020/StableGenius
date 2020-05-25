@@ -1,7 +1,4 @@
-<script src="../../js/angular/spectrum.min.js"></script>
-<script src="../../src/inject/app_helpers.js"></script>
-<link rel="stylesheet" type="text/css" href="../../css/angular/spectrum.min.css">
-<div class="content_box">
+<div class="content_box" ng-cloak>
 	<div class="title_row">
 		<i class='icon-whhg-keyboarddelete'></i>&nbsp;
 		<div id="options_title">Tag User</div>
@@ -9,11 +6,11 @@
 	<div id="sg_content_box" class="tag_options">
 		<div class="tag_section">
 			<label>Preview</label>
-			<div id="sg_preview" style="width: 75%"></div>
+			<div id="sg_preview"></div>
 		</div>
 		<div class="tag_section">
 			<label>Tag</label>
-			<input id="sg_preview_text_input" class="form_control" type="text" style="width: 75%">
+			<input id="sg_preview_text_input" class="form_control" type="text">
 		</div>
 		<div class="tag_section">
 			<label>Color</label>
@@ -23,49 +20,4 @@
 			&nbsp; <!-- placeholder row for save button -->
 		</div>
 	</div>
-	<script>
-		function changeColor(tinyColor) {
-			//console.log("tiny color: ", tinyColor.toHexString());
-
-			//debugger;
-
-			$("#sg_preview").css("background-color", tinyColor.toHexString());
-			$("#sg_preview").css("color", $("#colorpicker").css("color"));
-		}
-
-		/*
-		function hideSpectrum(color) {
-			//debugger;
-		}
-		*/
-
-		$(function () {
-			$("#colorpicker").spectrum({
-				preferredFormat: "hex",
-				type: "text",
-				togglePaletteOnly: "true",
-				hideAfterPaletteSelect: "true",
-				showInput: "true",
-				showInitial: "true",
-				color: "#fff",
-				change: changeColor//,
-				//hide: hideSpectrum
-			});
-
-			$('#sg_preview_text_input').on('input propertychange paste', function (eventData) {
-				var inputValue = eventData.target.value;
-
-				//debugger;
-
-				$("#sg_preview").html(inputValue);
-
-				if (inputValue != "") {
-					$("#sg_preview").removeClass("icon-whhg-keyboarddelete");
-				}
-				else {
-					$("#sg_preview").addClass("icon-whhg-keyboarddelete")
-				}
-			});
-		});
-	</script>
 </div>

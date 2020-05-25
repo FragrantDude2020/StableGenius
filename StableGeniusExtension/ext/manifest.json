@@ -9,15 +9,8 @@
     "48": "icons/icon_48.png",
     "128": "icons/icon_128.png"
   },
-  "content_security_policy": "script-src 'self' 'unsafe-eval'",
+  "content_security_policy": "script-src 'self' 'unsafe-eval';object-src 'self' 'unsafe-eval'",
   "default_locale": "en",
-  "background": {
-    "scripts": [
-      "src/inject/app_helpers.js",
-      "src/bg/background.js"
-    ],
-    "persistent": true
-  },
   "permissions": [
     "history",
     "storage",
@@ -31,11 +24,14 @@
         "https://thedonald.win/*"
       ],
       "js": [
-        "js/jquery/jquery.min.js",
+        "js/jquery.3.4.1/jquery.3.4.1.js",
+        "js/angular/spectrum.min.js",
         "src/inject/app_helpers.js",
         "src/inject/app.js"
       ],
       "css": [
+        "css/custom-bootstrap.css",
+        "css/angular/spectrum.min.css",
         "css/angular/whhg.css",
         "css/custom.css"
       ]

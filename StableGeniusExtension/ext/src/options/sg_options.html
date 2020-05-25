@@ -1,40 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Stable Genius for TheDonald.win - Options</title>
+    <title>Stable Genius for TheDonald.win - Options</title>
 
-	<link rel="stylesheet" href="../../css/angular/bootstrap.min.css" />
-	<link rel="stylesheet" href="../../css/angular/whhg.css" />
-	<link rel="stylesheet" href="../../css/angular/angular-material.min.css" />
-	<link rel="stylesheet" href="../../css/custom.css" />
+    <link rel="stylesheet" href="../../js/bootstrap.3.4.1/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="../../css/angular/spectrum.min.css" />
+    <link rel="stylesheet" href="../../css/angular/whhg.css" />
+    <link rel="stylesheet" href="../../css/angular/angular-material.min.css" />
+    <link rel="stylesheet" href="../../css/custom.css" />
 
-	<script src="../../js/angular/jquery2.2.2/jquery.min.js"></script>
-	<script src="../../js/angular/jquery.validate.min.js"></script>
-	<script src="../../js/angular/jquery.validate.unobtrusive.min.js"></script>
-	<script src="../../js/angular/jquery.unobtrusive-ajax.min.js"></script>
-	<script src="../../js/angular/angular.min.js"></script>
-	<script src="../../js/angular/angular-messages.min.js"></script>
-	<script src="../../js/angular/angular-animate.js"></script>
-	<script src="../../js/angular/angular-sanitize.js"></script>
-	<script src="../../js/angular/angular-resource.min.js"></script>
-	<script src="../../js/angular/angular-aria.min.js"></script>
-	<script src="../../js/angular/angular-material.min.js"></script>
+    <script src="../../js/jquery.3.4.1/jquery.3.4.1.js"></script>
+    <script src="../../js/jquery.3.4.1/jquery.validate.js"></script>
+    <script src="../../js/jquery.3.4.1/jquery.validate.unobtrusive.js"></script>
+    <script src="../../js/jquery.3.4.1/jquery.unobtrusive-ajax.js"></script>
+    <script src="../../js/angular/angular.min.js"></script>
+    <script src="../../js/angular/angular-messages.min.js"></script>
+    <script src="../../js/angular/angular-animate.js"></script>
+    <script src="../../js/angular/angular-sanitize.js"></script>
+    <script src="../../js/angular/angular-resource.min.js"></script>
+    <script src="../../js/angular/angular-aria.min.js"></script>
+    <script src="../../js/angular/angular-material.min.js"></script>
+    <script src="../../js/bootstrap.3.4.1/js/bootstrap.min.js"></script>
+    <script src="../../js/angular/ui-bootstrap-tpls-2.5.0.js"></script>
+	<script src="../../js/angular/spectrum.min.js"></script>
+    <script src="../../js/angular/JSLINQ.js"></script>
 
-	<script src="../../js/angular/bootstrap.min.js"></script>
-	<script src="../../js/angular/ui-bootstrap-tpls-2.5.0.js"></script>
-	<script src="../../js/angular/JSLINQ.js"></script>
+    <script src="../inject/app_helpers.js?v=0.0.1"></script>
 
-	<script src="../inject/app_helpers.js?v=0.0.1"></script>
+    <!-- Chrome extensions no longer allow 'unsafe-inline', so angular statements need to be in external files | see: https://stackoverflow.com/a/11672134 -->
+    <script src="sg_options_ang.js?v=0.0.1"></script>
 
-	<!-- Chrome extensions no longer allow 'unsafe-inline', see: https://stackoverflow.com/a/11672134 -->
-	<script src="sg_options_ang.js?v=0.0.1"></script>
+    <script src="../../js/StableGenius/Services/Common/alertService.js?v=0.0.1"></script>
+    <script src="../../js/StableGenius/Services/Common/httpService.js?v=0.0.1"></script>
 
-	<script src="../../js/StableGenius/Services/Common/alertService.js?v=0.0.1"></script>
-	<script src="../../js/StableGenius/Services/Common/httpService.js?v=0.0.1"></script>
+    <script src="../../js/StableGenius/Directives/Common/AlertNotifier.js?v=0.0.1"></script>
 
-	<script src="../../js/StableGenius/Directives/Common/AlertNotifier.js?v=0.0.1"></script>
-
-	<script src="sg_option_app.js?v=0.0.1"></script>
+    <script src="sg_option_app.js?v=0.0.1"></script>
 </head>		
 	<body text="black" bottomMargin="0" leftMargin="0" topMargin="0" rightMargin="0" style="background-color: #eee; padding: 48px;">
 		<div ng-app="app" ng-strict-di>
@@ -66,7 +67,7 @@
 									<img src="/icons/loader.gif" style="height: 32px; width: 32px;" />
 									Loading
 								</div>
-								<div class="animate-switch-container" ng-switch on="getObjectPropertiesCount(usersList)">
+								<div class="animate-switch-container" ng-switch on="getObjectPropertiesCount(usersList)" ng-cloak>
 									<div class="animate-switch" ng-switch-when="-2">
 										<div class="no_users_found_box">No users data found, created a new initialization. <div class="btn btn-success" ng-click="getUsers()">Click here</div> to refresh this list.</div>
 									</div>
@@ -136,7 +137,7 @@
 									</div>
 								</div>
 
-								<div ng-if="logLevel > 1" style="margin-top: 32px">
+								<div ng-if="logLevel > 1" style="margin-top: 32px" ng-cloak>
 									users list: [{{(usersList === null ? "null" : (usersList === undefined) ? "undefined" : "got'em")}}] => {{usersList}}<br />
 									users count: [{{getObjectPropertiesCount(usersList)}}]
 								</div>

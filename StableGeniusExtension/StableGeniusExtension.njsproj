@@ -74,6 +74,9 @@
     <Content Include="ext\css\angular\palette.css" />
     <Content Include="ext\css\angular\spectrum.min.css" />
     <Content Include="ext\css\angular\whhg.css" />
+    <Content Include="ext\css\custom-bootstrap.css">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="ext\css\custom.css" />
     <Content Include="ext\css\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="ext\css\fonts\glyphicons-halflings-regular.svg" />

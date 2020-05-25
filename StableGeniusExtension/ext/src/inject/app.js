@@ -144,43 +144,47 @@ $(function ()
 					if (result.users !== undefined) {
 						$(".author").each(function (index, authorElement) {
 							var author = authorElement.innerHTML;
+							var authorTag = $(authorElement).parent().find(".author_tag_" + author);
 
 							//debugger;
 
-							if (author != "deleted" && result.users[author] !== undefined) {
-								//debugger;
+							authorTag.data("author", author);
 
-								// update vote count
-								setVoteValue(author, (result.users[author].voteValueUp || 0) - (result.users[author].voteValueDn || 0));
-
-								// update tag
-								var authorTag = $(authorElement).parent().find(".author_tag_" + author);
-								if (result.users[author].authorTag) {
-
-									authorTag.html(result.users[author].authorTag);
-									authorTag.attr("title", result.users[author].authorTag);
-
+							if (author != "deleted") {
+								if (result.users[author] !== undefined) {
 									//debugger;
 
-									authorTag.data("author", author);
-									authorTag.data("tag", result.users[author].authorTag);
-									authorTag.data("tagColor", result.users[author].authorTagColor);
-									authorTag.data("tagBackground", result.users[author].authorTagBackground);
+									// update vote count
+									setVoteValue(author, (result.users[author].voteValueUp || 0) - (result.users[author].voteValueDn || 0));
 
-									//debugger;
+									// update tag
+									if (result.users[author].authorTag) {
 
-									authorTag.removeClass("icon-whhg-keyboarddelete");
+										authorTag.html(result.users[author].authorTag);
+										authorTag.attr("title", result.users[author].authorTag);
 
-									authorTag.html(result.users[author].authorTag);
-									authorTag.css("color", result.users[author].authorTagColor);
-									authorTag.css("background-color", result.users[author].authorTagBackground);
+										//debugger;
+
+										authorTag.data("tag", result.users[author].authorTag);
+										authorTag.data("tagColor", result.users[author].authorTagColor);
+										authorTag.data("tagBackground", result.users[author].authorTagBackground);
+
+										//debugger;
+
+										authorTag.removeClass("icon-whhg-keyboarddelete");
+
+										authorTag.html(result.users[author].authorTag);
+										authorTag.css("color", result.users[author].authorTagColor);
+										authorTag.css("background-color", result.users[author].authorTagBackground);
+									}
 								} else {
 									authorTag.addClass("icon-whhg-keyboarddelete")
 
 									authorTag.html("");
 									authorTag.css("color", "");
 									authorTag.css("background-color", "");
-                                }
+
+								}
 							}
 						});
 					}
