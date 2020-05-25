@@ -190,6 +190,10 @@ function saveAuthorTag(targetOptionsWindow) {
 		authorTag.html(tagContent);
 		authorTag.css("color", tagColor);
 		authorTag.css("background-color", tagBackground);
+
+		authorTag.data("tag", tagContent);
+		authorTag.data("tagColor", tagColor);
+		authorTag.data("tagBackground", tagBackground);
 	}
 }
 
