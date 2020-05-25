@@ -163,6 +163,11 @@ function saveAuthorTag(targetOptionsWindow) {
 	getUsers(function (result) {
 		//debugger;
 
+		// if author data doesn't exist, create a new one
+		if (!result.users[author]) {
+			result.users[author] = {};
+        }
+
 		// set the author tag information, blank out the color and background on empty tag
 		result.users[author].authorTag = tagContent;
 		result.users[author].authorTagColor = ((tagContent == "") ? "" : tagColor);
