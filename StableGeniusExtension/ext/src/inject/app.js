@@ -198,6 +198,25 @@ $(function ()
         }
 	});
 
+	getSettings("settings", function (result) {
+		//debugger;
+
+		if (result.settings.changeButton) {
+			var loginSubmitButton = $(document.evaluate("//form[contains(@class, 'login')]/input[@type='submit']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue);
+
+			//debugger;
+
+			if (loginSubmitButton.length > 0)
+				loginSubmitButton[0].value = result.settings.loginButtonText || "Win";
+
+			var commentSubmitButton = $(document.evaluate("//div[contains(@class, 'reply-button')]/input[@type='submit']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue);
+
+			if (commentSubmitButton.length > 0) {
+				commentSubmitButton[0].value = result.settings.postCommentButtonText || "Publish";
+			}
+		}
+	});
+
 	//debugger;
 
 	console.log(">>> end of DOM ready");

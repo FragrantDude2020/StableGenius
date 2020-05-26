@@ -10,6 +10,8 @@ app
 		// log levels: 0 = none, 1 = trace, 2 = debug
 		$scope.logLevel = 1;
 
+		$scope.settings = undefined;
+
 		// hacked together print function to allow varying log levels
 		$scope.print = function (message, obj) {
 			if ($scope.logLevel > 0) {
@@ -45,36 +47,65 @@ app
 
 					// check to make sure the users list exists
 					if (result.users !== undefined) {
-						$scope.print("found users: ", result.users);
+						//$scope.print("found users: ", result.users);
 
 						//debugger;
 
 						$scope.$apply(function () {
 							$scope.usersList = result.users;
 
-							$scope.print("assigned users: ", $scope.usersList);
+							//$scope.print("assigned users: ", $scope.usersList);
 						});
 
 						setAuthorTagClick();
 					}
 				},
 				function (authorDetails) {
-					alertService.addAlert("warning", "No users found!");
+					alertService.addAlert("danger", "No users found!");
 
 					$scope.print("no users found, setting sync storage to: ", authorDetails);
 			});
 		}
 
+		$scope.updateSettingsData = function () {
+			//debugger;
+
+			updateSettings("settings", undefined, $scope.settings);
+		};
+
+		$scope.getSettingsData = function () {
+			$scope.settings = null;
+
+			getSettings("settings", function (result) {
+				//$scope.print("settings found", result);
+
+				if (result.settings !== undefined) {
+					$scope.$apply(function () {
+						$scope.settings = result.settings;
+					});
+				}
+			},
+				function (settingsDetails) {
+					alertService.addAlert("danger", "No settings found!");
+
+					settingsDetails.settings.changeButton = true;
+					settingsDetails.settings.loginButtonText = "Submit";
+					settingsDetails.settings.postCommentButtonText = "Submit";
+
+					$scope.print("no settings found, setting sync storage to: ", settingsDetails);
+				});
+        }
+
 		// save the user data back to sync storage
 		$scope.updateUsersData = function (usersList, SuccessCallback) {
 			updateUsers(usersList, function (result) {
-				$scope.print("found users: ", result.users);
+				//$scope.print("found users: ", result.users);
 
 				if (SuccessCallback)
 					SuccessCallback(result);
 			},
 				function (result) {
-					alertService.addAlert("warning", "No users found!")
+					alertService.addAlert("danger", "No users found!")
 
 					$scope.print("no users found, resetting, ", result);
 			});
@@ -126,6 +157,7 @@ app
 			return Object.getOwnPropertyNames(objectProperty).length;
 		}
 
-		// first thing, get all the user data and display
+		// first thing, get all the data and display
 		$scope.getUsersData();
+		$scope.getSettingsData();
 	}]);

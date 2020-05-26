@@ -112,6 +112,8 @@
     <Content Include="ext\js\bootstrap.3.4.1\css\bootstrap-theme.css.map" />
     <Content Include="ext\js\bootstrap.3.4.1\css\bootstrap-theme.min.css" />
     <Content Include="ext\js\bootstrap.3.4.1\css\bootstrap-theme.min.css.map" />
+    <Content Include="ext\js\bootstrap.3.4.1\css\bootstrap-toggle.css" />
+    <Content Include="ext\js\bootstrap.3.4.1\css\bootstrap-toggle.min.css" />
     <Content Include="ext\js\bootstrap.3.4.1\css\bootstrap.css" />
     <Content Include="ext\js\bootstrap.3.4.1\css\bootstrap.css.map" />
     <Content Include="ext\js\bootstrap.3.4.1\css\bootstrap.min.css" />
@@ -121,6 +123,8 @@
     <Content Include="ext\js\bootstrap.3.4.1\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="ext\js\bootstrap.3.4.1\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="ext\js\bootstrap.3.4.1\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="ext\js\bootstrap.3.4.1\js\bootstrap-toggle.js" />
+    <Content Include="ext\js\bootstrap.3.4.1\js\bootstrap-toggle.min.js" />
     <Content Include="ext\js\bootstrap.3.4.1\js\bootstrap.js" />
     <Content Include="ext\js\bootstrap.3.4.1\js\bootstrap.min.js" />
     <Content Include="ext\js\bootstrap.3.4.1\js\npm.js" />

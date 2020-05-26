@@ -229,6 +229,24 @@ function getUsers(SuccessCallback, ErrorCallback) {
 	});
 }
 
+function getSettings(settingsKey, SuccessCallback, ErrorCallback) {
+	chrome.storage.sync.get([settingsKey], function (result) {
+		if (result[settingsKey] !== undefined) {
+			if (SuccessCallback)
+				SuccessCallback(result);
+		} else {
+			var settingsDetails = result || {};
+
+			settingsDetails[settingsKey] = settingsDetails[settingsKey] || {};
+
+			if (ErrorCallback)
+				ErrorCallback(settingsDetails);
+
+			saveSGDatabase(settingsDetails);
+        }
+	});
+}
+
 // update the entire user database, "userData" is the whole users list | update a single user, "userData" is that user's information
 function updateUsers(userData, SuccessCallback, ErrorCallback, userName) {
 	chrome.storage.sync.get(["users"], function (result) {
@@ -262,6 +280,26 @@ function updateUsers(userData, SuccessCallback, ErrorCallback, userName) {
 // convenience wrapper to update a single user
 function updateUser(userName, userData, SuccessCallback, ErrorCallback) {
 	updateUsers(userData, SuccessCallback, ErrorCallback, userName);
+}
+
+function updateSettings(settingsKey, settingName, settingsData, SuccessCallback, ErrorCallback) {
+	chrome.storage.sync.get([settingsKey], function (result) {
+		if (result[settingsKey] !== undefined) {
+			if (settingName !== undefined) {
+				result[settingsKey][settingName] = settingsData;
+			} else {
+				result[settingsKey] = settingsData;
+			}
+
+			if (SuccessCallback)
+				SuccessCallback(result);
+
+			saveSGDatabase(result);
+		} else {
+			if (ErrorCallback)
+				ErrorCallback(result);
+        }
+	});
 }
 
 // save the whole Stable Genius database to sync storage, with optional user list refresh

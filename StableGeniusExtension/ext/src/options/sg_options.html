@@ -4,6 +4,7 @@
     <title>Stable Genius for TheDonald.win - Options</title>
 
     <link rel="stylesheet" href="../../js/bootstrap.3.4.1/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="../../js/bootstrap.3.4.1/css/bootstrap-toggle.css" />
 	<link rel="stylesheet" href="../../css/angular/spectrum.min.css" />
     <link rel="stylesheet" href="../../css/angular/whhg.css" />
     <link rel="stylesheet" href="../../css/angular/angular-material.min.css" />
@@ -22,6 +23,7 @@
     <script src="../../js/angular/angular-material.min.js"></script>
     <script src="../../js/bootstrap.3.4.1/js/bootstrap.min.js"></script>
     <script src="../../js/angular/ui-bootstrap-tpls-2.5.0.js"></script>
+	<script src="../../js/bootstrap.3.4.1/js/bootstrap-toggle.js"></script>
 	<script src="../../js/angular/spectrum.min.js"></script>
     <script src="../../js/angular/JSLINQ.js"></script>
 
@@ -49,109 +51,153 @@
 							</div>
 						</div>
 					</div>
-					<div class="row form-group">
-						<div class="col-xs-12 col-md-2 text-right">
-							<div class="section_title">
-								<div>
-									User manager
+					<ul class="nav nav-tabs" style="margin-bottom: 24px">
+						<li class="active"><a data-toggle="tab" href="#main_tab">Main</a></li>
+						<li><a data-toggle="tab" href="#user_manager_tab">User Manager</a></li>
+					</ul>
+					<div class="tab-content">
+						<div id="main_tab" class="tab-pane fade in row active">
+							<div class="row form-group">
+								<div class="col-xs-12 col-md-2 text-right">
+									<div class="section_title">
+										Change the look of my buttons
+										<div>
+											<i class="icon-whhg-question-sign" tooltip-placement="left" uib-tooltip="This will change the look & feel of some of the buttons on the main TDW interface."></i>
+										</div>
+									</div>
 								</div>
-								<div class="title_action_row">
-									<div class="icon-whhg-refresh title_action_button" title="Refresh users list" ng-click="getUsersData()">
+								<div class="col-xs-12 col-md-10">
+									<div class="row form-group">
+										<div class="col-xs-12">
+											<md-switch class="md-primary" name="spec" ng-model="settings.changeButton" style="margin: 0 0; display: inline-block" ng-change="updateSettingsData()"></md-switch>
+										</div>
+									</div>
+									<div class="row form-group" style="width: 50%">
+										<div class="col-xs-12 col-md-3">
+											Login button text:
+										</div>
+										<div class="col-xs-12 col-md-9">
+											<input type="text" class="form-control" placeholder="Win" ng-model="settings.loginButtonText" ng-change="updateSettingsData()" ng-disabled="!settings.changeButton" />
+										</div>
+									</div>
+									<div class="row form-group" style="width: 50%">
+										<div class="col-xs-12 col-md-3">
+											Post comment button text:
+										</div>
+										<div class="col-xs-12 col-md-9">
+											<input type="text" class="form-control" placeholder="Publish" ng-model="settings.postCommentButtonText" ng-change="updateSettingsData()" ng-disabled="!settings.changeButton" />
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-						<div class="col-xs-12 col-md-10">
-							<div class="user_manager_box">
-								<div style="display: table; margin: 0 auto; font-size: 26px; color: #CCC;" ng-if="gettingUsers == true && usersList === null && usersList !== undefined">
-									<img src="/icons/loader.gif" style="height: 32px; width: 32px;" />
-									Loading
-								</div>
-								<div class="animate-switch-container" ng-switch on="getObjectPropertiesCount(usersList)" ng-cloak>
-									<div class="animate-switch" ng-switch-when="-2">
-										<div class="no_users_found_box">No users data found, created a new initialization. <div class="btn btn-success" ng-click="getUsers()">Click here</div> to refresh this list.</div>
-									</div>
-									<div class="animate-switch" ng-switch-when="-1|0" ng-switch-when-separator="|">
-										No users found
-									</div>
-									<div class="animate-switch" ng-switch-default>
-										<div class="row form-group title_row">
-											<div class="col-xs-1">
-												Actions
-											</div>
-											<div class="col-xs-1 text-center">
-												<div class="icon-whhg-arrow-up" style="color: #ff4500" title="Upvotes">
-												</div>
-											</div>
-											<div class="col-xs-1 text-center">
-												<div class="icon-whhg-arrow-down" style="color: #7193ff" title="Downvotes">
-												</div>
-											</div>
-											<div class="col-xs-9">
-												Username
-											</div>
+							<div class="row form-group" style="margin-top: 56px;">
+								<div class="col-xs-12 col-md-2 text-right">
+									<div class="section_title">
+										Clear all data
+										<div>
+											<i class="icon-whhg-question-sign" tooltip-placement="left" uib-tooltip="WARNING: Clicking this button and confirming the popup message will delete ALL your data from Stable Genius! You will lose all your settings, vote counts, and user tags."></i>
 										</div>
-										<div ng-repeat="(userName, userSettings) in usersList">
-											<div class="row form-group user_data_row">
+									</div>
+								</div>
+								<div class="col-xs-12 col-md-10">
+									<input type="button" class="btn btn-danger" value="Clear Data" ng-click="clearData()" />
+								</div>
+							</div>
+						</div>
+						<div id="user_manager_tab" class="tab-pane fade row">
+							<div class="col-xs-12 col-md-2 text-right">
+								<div class="section_title">
+									<div>
+										User manager
+									</div>
+									<div class="title_action_row">
+										<div class="icon-whhg-refresh title_action_button" title="Refresh users list" ng-click="getUsersData()">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-xs-12 col-md-10">
+								<div class="user_manager_box">
+									<div style="display: table; margin: 0 auto; font-size: 26px; color: #CCC;" ng-if="gettingUsers == true && usersList === null && usersList !== undefined">
+										<img src="/icons/loader.gif" style="height: 32px; width: 32px;" />
+										Loading
+									</div>
+									<div class="animate-switch-container" ng-switch on="getObjectPropertiesCount(usersList)" ng-cloak>
+										<div class="animate-switch" ng-switch-when="-2">
+											<div class="no_users_found_box">No users data found, created a new initialization. <div class="btn btn-success" ng-click="getUsers()">Click here</div> to refresh this list.</div>
+										</div>
+										<div class="animate-switch" ng-switch-when="-1|0" ng-switch-when-separator="|">
+											No users found
+										</div>
+										<div class="animate-switch" ng-switch-default>
+											<div class="row form-group title_row">
 												<div class="col-xs-1">
-													<div class="action_buttons_row">
-														<div class="icon-whhg-squarex delete_button action_button" ng-click="deleteUser(userName)" title="Delete user information"></div>
-														<div class="icon-whhg-square0 clear_vote_button action_button" ng-click="clearVoteCount(userName)" title="Clear vote count"></div>
+													Actions
+												</div>
+												<div class="col-xs-1 text-center">
+													<div class="icon-whhg-arrow-up" style="color: #ff4500" title="Upvotes">
 													</div>
 												</div>
-												<div class="col-xs-1">
-													<div class="vote_display">
-														<div ng-if="userSettings.voteValueUp || userSettings.voteValueUp === 0" title="Upvote vote count">
-															[{{userSettings.voteValueUp}}]
-														</div>
-														<div ng-if="!userSettings.voteValueUp && userSettings.voteValueUp !== 0" title="Upvote vote count">
-															[0]
-														</div>
-													</div>
-												</div>
-												<div class="col-xs-1">
-													<div class="vote_display">
-														<div ng-if="userSettings.voteValueDn || userSettings.voteValueDn === 0" title="Downvote vote count">
-															[{{userSettings.voteValueDn}}]
-														</div>
-														<div ng-if="!userSettings.voteValueDn && userSettings.voteValueDn !== 0" title="Downvote vote count">
-															[0]
-														</div>
+												<div class="col-xs-1 text-center">
+													<div class="icon-whhg-arrow-down" style="color: #7193ff" title="Downvotes">
 													</div>
 												</div>
 												<div class="col-xs-9">
-													<div class="user_display">
-														<div class="user_name">
-															<a href="https://thedonald.win/u/{{userName}}" target="_blank">{{userName}}</a>
+													Username
+												</div>
+											</div>
+											<div ng-repeat="(userName, userSettings) in usersList">
+												<div class="row form-group user_data_row">
+													<div class="col-xs-1">
+														<div class="action_buttons_row">
+															<div class="icon-whhg-squarex delete_button action_button" ng-click="deleteUser(userName)" title="Delete user information"></div>
+															<div class="icon-whhg-square0 clear_vote_button action_button" ng-click="clearVoteCount(userName)" title="Clear vote count"></div>
 														</div>
+													</div>
+													<div class="col-xs-1">
+														<div class="vote_display">
+															<div ng-if="userSettings.voteValueUp || userSettings.voteValueUp === 0" title="Upvote vote count">
+																[{{userSettings.voteValueUp}}]
+															</div>
+															<div ng-if="!userSettings.voteValueUp && userSettings.voteValueUp !== 0" title="Upvote vote count">
+																[0]
+															</div>
+														</div>
+													</div>
+													<div class="col-xs-1">
+														<div class="vote_display">
+															<div ng-if="userSettings.voteValueDn || userSettings.voteValueDn === 0" title="Downvote vote count">
+																[{{userSettings.voteValueDn}}]
+															</div>
+															<div ng-if="!userSettings.voteValueDn && userSettings.voteValueDn !== 0" title="Downvote vote count">
+																[0]
+															</div>
+														</div>
+													</div>
+													<div class="col-xs-9">
+														<div class="user_display">
+															<div class="user_name">
+																<a href="https://thedonald.win/u/{{userName}}" target="_blank">{{userName}}</a>
+															</div>
 
-														<div ng-class="{'icon-whhg-keyboarddelete': !userSettings.authorTag }" class="sg_author_tag author_tag_{{userName}} options_window" ng-style="{'color': (userSettings.authorTagColor != '') ? userSettings.authorTagColor : 'inherit', 'background-color': (userSettings.authorTagBackground != '') ? userSettings.authorTagBackground : 'inherit'}" data-author="{{userName}}" data-tag="{{userSettings.authorTag}}" data-tag-color="{{userSettings.authorTagColor}}" data-tag-background="{{userSettings.authorTagBackground}}" title="Add user tag">{{userSettings.authorTag}}</div>
+															<div ng-class="{'icon-whhg-keyboarddelete': !userSettings.authorTag }" class="sg_author_tag author_tag_{{userName}} options_window" ng-style="{'color': (userSettings.authorTagColor != '') ? userSettings.authorTagColor : 'inherit', 'background-color': (userSettings.authorTagBackground != '') ? userSettings.authorTagBackground : 'inherit'}" data-author="{{userName}}" data-tag="{{userSettings.authorTag}}" data-tag-color="{{userSettings.authorTagColor}}" data-tag-background="{{userSettings.authorTagBackground}}" title="Add user tag">{{userSettings.authorTag}}</div>
 
-														<div ng-if="logLevel > 1" ng-repeat="(prop, propValue) in userSettings">
-															[{{prop}}] => [{{propValue}}]
+															<div ng-if="logLevel > 1" ng-repeat="(prop, propValue) in userSettings">
+																[{{prop}}] => [{{propValue}}]
+															</div>
 														</div>
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
-								</div>
 
-								<div ng-if="logLevel > 1" style="margin-top: 32px" ng-cloak>
-									users list: [{{(usersList === null ? "null" : (usersList === undefined) ? "undefined" : "got'em")}}] => {{usersList}}<br />
-									users count: [{{getObjectPropertiesCount(usersList)}}]
+									<div ng-if="logLevel > 1" style="margin-top: 32px" ng-cloak>
+										users list: [{{(usersList === null ? "null" : (usersList === undefined) ? "undefined" : "got'em")}}] => {{usersList}}<br />
+										users count: [{{getObjectPropertiesCount(usersList)}}]
+									</div>
 								</div>
 							</div>
-						</div>
-					</div>
-					<div class="row form-group">
-						<div class="col-xs-12 col-md-2 text-right">
-							<div class="section_title">
-								Clear all data
-							</div>
-						</div>
-						<div class="col-xs-12 col-md-10">
-							<input type="button" class="btn btn-danger" value="Clear Data" ng-click="clearData()" />
 						</div>
 					</div>
 				</div>
